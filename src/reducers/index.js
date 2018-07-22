@@ -9,7 +9,15 @@ export default (state = initialState, action) => {
     case RECEIVE_DEMO_MODE:
       return { ...state, demoMode: action.demoMode }
     case RECEIVE_LEARNING:
-      return { ...state, learning: action.data }
+      return {
+        ...state,
+        learning: action.data.map(item =>
+          item.reduce((result, value, i) => {
+            result[i] = value
+            return result
+          }, {}),
+        ),
+      }
     default:
       return state
   }

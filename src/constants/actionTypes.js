@@ -1,0 +1,1 @@
+export const RECEIVE_DEMO_MODE = 'RECEIVE_DEMO_MODE'

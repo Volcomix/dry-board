@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import Tooltip from '@material-ui/core/Tooltip'
 
+import Learning from './Learning'
+
 const styles = theme => ({
   title: {
     flexGrow: 1,
@@ -30,30 +32,33 @@ const styles = theme => ({
 })
 
 const App = ({ classes, demoMode }) => (
-  <AppBar position="static">
-    <CssBaseline />
-    <Toolbar>
-      <Typography variant="title" color="inherit" className={classes.title}>
-        Dry Board
-      </Typography>
-      <Typography color="inherit" className={classes.label}>
-        Demo mode:
-      </Typography>
-      {demoMode === undefined ? (
-        <Tooltip title="Demo mode state is unknown">
-          <Icon className={classes.demoModeUnknown}>help</Icon>
-        </Tooltip>
-      ) : demoMode ? (
-        <Tooltip title="Demo mode is enabled">
-          <Icon className={classes.demoModeEnabled}>check_circle</Icon>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Demo mode is disabled">
-          <Icon className={classes.demoModeDisabled}>error</Icon>
-        </Tooltip>
-      )}
-    </Toolbar>
-  </AppBar>
+  <div>
+    <AppBar position="static">
+      <CssBaseline />
+      <Toolbar>
+        <Typography variant="title" color="inherit" className={classes.title}>
+          Dry Board
+        </Typography>
+        <Typography color="inherit" className={classes.label}>
+          Demo mode:
+        </Typography>
+        {demoMode === undefined ? (
+          <Tooltip title="Demo mode state is unknown">
+            <Icon className={classes.demoModeUnknown}>help</Icon>
+          </Tooltip>
+        ) : demoMode ? (
+          <Tooltip title="Demo mode is enabled">
+            <Icon className={classes.demoModeEnabled}>check_circle</Icon>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Demo mode is disabled">
+            <Icon className={classes.demoModeDisabled}>error</Icon>
+          </Tooltip>
+        )}
+      </Toolbar>
+    </AppBar>
+    <Learning />
+  </div>
 )
 
 const mapStateToProps = state => ({

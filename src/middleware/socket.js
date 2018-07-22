@@ -7,5 +7,8 @@ export default store => {
   socket.on('demoMode', demoMode => {
     store.dispatch(receiveDemoMode(demoMode))
   })
+  socket.on('disconnect', () => {
+    store.dispatch(receiveDemoMode())
+  })
   return next => action => next(action)
 }

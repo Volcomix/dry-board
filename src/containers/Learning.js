@@ -11,25 +11,20 @@ import {
   Brush,
 } from 'recharts'
 
+import chartColors from '../constants/chartColors'
+
 const styles = theme => ({
   container: {
     marginTop: theme.spacing.unit * 3,
   },
 })
 
-const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
-
 const Learning = ({ classes, data }) =>
   data && data.length ? (
     <ResponsiveContainer height={300} className={classes.container}>
       <LineChart data={data} margin={{ left: 24, right: 64 }}>
         {Object.keys(data[0]).map(i => (
-          <Line
-            key={i}
-            dataKey={i}
-            dot={false}
-            stroke={colors[i % colors.length]}
-          />
+          <Line key={i} dataKey={i} dot={false} stroke={chartColors(i)} />
         ))}
         <CartesianGrid vertical={false} />
         <YAxis />

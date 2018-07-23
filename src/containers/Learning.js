@@ -21,12 +21,8 @@ const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
 const Learning = ({ classes, data }) =>
   data && data.length ? (
-    <ResponsiveContainer
-      className={classes.container}
-      width="100%"
-      height={300}
-    >
-      <LineChart data={data}>
+    <ResponsiveContainer height={300} className={classes.container}>
+      <LineChart data={data} margin={{ left: 24, right: 64 }}>
         {Object.keys(data[0]).map(i => (
           <Line
             key={i}

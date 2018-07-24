@@ -22,16 +22,20 @@ const styles = theme => ({
 const Learning = ({ classes, data }) =>
   data ? (
     <div>
-      {data.map((item, i) => (
+      {data.map((chart, i) => (
         <ResponsiveContainer key={i} height={300} className={classes.container}>
-          <LineChart data={item} margin={{ left: 24, right: 64 }}>
-            {Object.keys(item[0]).map(j => (
+          <LineChart
+            data={chart}
+            margin={{ left: 24, right: 64 }}
+            syncId="learning"
+          >
+            {Object.keys(chart[0]).map(j => (
               <Line key={j} dataKey={j} dot={false} stroke={chartColors(j)} />
             ))}
             <CartesianGrid vertical={false} />
             <YAxis />
             <Tooltip />
-            <Brush />
+            {i === 0 ? <Brush /> : null}
           </LineChart>
         </ResponsiveContainer>
       ))}

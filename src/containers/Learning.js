@@ -20,18 +20,22 @@ const styles = theme => ({
 })
 
 const Learning = ({ classes, data }) =>
-  data && data.length ? (
-    <ResponsiveContainer height={300} className={classes.container}>
-      <LineChart data={data} margin={{ left: 24, right: 64 }}>
-        {Object.keys(data[0]).map(i => (
-          <Line key={i} dataKey={i} dot={false} stroke={chartColors(i)} />
-        ))}
-        <CartesianGrid vertical={false} />
-        <YAxis />
-        <Tooltip />
-        <Brush />
-      </LineChart>
-    </ResponsiveContainer>
+  data ? (
+    <div>
+      {data.map((item, i) => (
+        <ResponsiveContainer key={i} height={300} className={classes.container}>
+          <LineChart data={item} margin={{ left: 24, right: 64 }}>
+            {Object.keys(item[0]).map(j => (
+              <Line key={j} dataKey={j} dot={false} stroke={chartColors(j)} />
+            ))}
+            <CartesianGrid vertical={false} />
+            <YAxis />
+            <Tooltip />
+            <Brush />
+          </LineChart>
+        </ResponsiveContainer>
+      ))}
+    </div>
   ) : null
 
 const mapStateToProps = state => ({

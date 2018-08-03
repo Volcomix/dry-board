@@ -50,7 +50,7 @@ const Learning = ({ classes, data, history }) =>
       <div className={classNames(classes.container, classes.history)}>
         <ResponsiveContainer>
           <LineChart data={history} margin={margin} syncId="history">
-            <Line dataKey="loss" dot={false} />
+            <Line dataKey="loss" dot={false} isAnimationActive={false} />
             <CartesianGrid />
             <XAxis dataKey="epoch" />
             <YAxis>
@@ -66,7 +66,7 @@ const Learning = ({ classes, data, history }) =>
         </ResponsiveContainer>
         <ResponsiveContainer>
           <LineChart data={history} margin={margin} syncId="history">
-            <Line dataKey="accuracy" dot={false} />
+            <Line dataKey="accuracy" dot={false} isAnimationActive={false} />
             <CartesianGrid />
             <XAxis dataKey="epoch" />
             <YAxis>

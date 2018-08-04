@@ -32,7 +32,7 @@ const styles = theme => ({
 })
 
 const App = ({ classes, demoMode }) => (
-  <div>
+  <React.Fragment>
     <AppBar position="static">
       <CssBaseline />
       <Toolbar>
@@ -58,7 +58,7 @@ const App = ({ classes, demoMode }) => (
       </Toolbar>
     </AppBar>
     <Learning />
-  </div>
+  </React.Fragment>
 )
 
 const mapStateToProps = state => ({

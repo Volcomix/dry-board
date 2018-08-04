@@ -31,10 +31,10 @@ const styles = theme => ({
 
 const margin = { left: 24, right: 64 }
 
-const Learning = ({ classes, data, history }) =>
-  data ? (
-    <div>
-      {data.map((chart, i) => (
+const Learning = ({ classes, data, history }) => (
+  <React.Fragment>
+    {data &&
+      data.map((chart, i) => (
         <ResponsiveContainer key={i} height={200} className={classes.container}>
           <LineChart data={chart} margin={margin} syncId="learning">
             {Object.keys(chart[0]).map(j => (
@@ -42,11 +42,12 @@ const Learning = ({ classes, data, history }) =>
             ))}
             <CartesianGrid vertical={false} />
             <YAxis />
-            <Tooltip />
+            <Tooltip isAnimationActive={false} />
             {i === 0 ? <Brush /> : null}
           </LineChart>
         </ResponsiveContainer>
       ))}
+    {history && (
       <div className={classNames(classes.container, classes.history)}>
         <ResponsiveContainer>
           <LineChart data={history} margin={margin} syncId="history">
@@ -61,7 +62,7 @@ const Learning = ({ classes, data, history }) =>
                 className={classes.label}
               />
             </YAxis>
-            <Tooltip />
+            <Tooltip isAnimationActive={false} />
           </LineChart>
         </ResponsiveContainer>
         <ResponsiveContainer>
@@ -77,12 +78,13 @@ const Learning = ({ classes, data, history }) =>
                 className={classes.label}
               />
             </YAxis>
-            <Tooltip />
+            <Tooltip isAnimationActive={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </div>
-  ) : null
+    )}
+  </React.Fragment>
+)
 
 const mapStateToProps = state => ({
   data: state.learningData,

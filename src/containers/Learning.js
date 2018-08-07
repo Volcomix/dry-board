@@ -53,7 +53,7 @@ const Learning = ({ classes, data, history }) => (
           <LineChart data={history} margin={margin} syncId="history">
             <Line dataKey="loss" dot={false} isAnimationActive={false} />
             <CartesianGrid />
-            <XAxis dataKey="epoch" />
+            <XAxis dataKey="epoch" type="number" allowDecimals={false} />
             <YAxis>
               <Label
                 value="Loss"
@@ -69,7 +69,7 @@ const Learning = ({ classes, data, history }) => (
           <LineChart data={history} margin={margin} syncId="history">
             <Line dataKey="accuracy" dot={false} isAnimationActive={false} />
             <CartesianGrid />
-            <XAxis dataKey="epoch" />
+            <XAxis dataKey="epoch" type="number" allowDecimals={false} />
             <YAxis>
               <Label
                 position="left"

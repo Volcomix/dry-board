@@ -49,24 +49,24 @@ const Learning = ({ classes, inputs, data, history }) => (
     {inputs && [
       <ResponsiveContainer key="features" height={chartHeight}>
         <LineChart data={inputs} margin={margin} syncId="inputs">
+          <CartesianGrid vertical={false} />
+          <Tooltip isAnimationActive={false} />
           {Object.keys(inputs[0])
             .filter(j => !['date', 'target'].includes(j))
             .map((j, i) => (
               <Line key={j} dataKey={j} dot={false} stroke={chartColors(i)} />
             ))}
-          <CartesianGrid vertical={false} />
           <XAxis dataKey="date" hide={true} />
           <YAxis />
-          <Tooltip isAnimationActive={false} />
         </LineChart>
       </ResponsiveContainer>,
       <ResponsiveContainer key="target" height={chartHeight}>
         <BarChart data={inputs} margin={margin} syncId="inputs">
           <CartesianGrid vertical={false} />
-          <XAxis dataKey="date" hide={true} />
-          <YAxis ticks={[-1, 0, 1]} />
           <Tooltip isAnimationActive={false} />
           <Bar dataKey="target" dot={false} fill={chartColors(0)} />
+          <XAxis dataKey="date" hide={true} />
+          <YAxis ticks={[-1, 0, 1]} />
           <Brush />
         </BarChart>
       </ResponsiveContainer>,
@@ -75,12 +75,12 @@ const Learning = ({ classes, inputs, data, history }) => (
       data.map((chart, i) => (
         <ResponsiveContainer key={i} height={chartHeight}>
           <LineChart data={chart} margin={margin} syncId="data">
+            <CartesianGrid vertical={false} />
+            <Tooltip isAnimationActive={false} />
             {Object.keys(chart[0]).map(j => (
               <Line key={j} dataKey={j} dot={false} stroke={chartColors(j)} />
             ))}
-            <CartesianGrid vertical={false} />
             <YAxis />
-            <Tooltip isAnimationActive={false} />
           </LineChart>
         </ResponsiveContainer>
       ))}
@@ -93,8 +93,9 @@ const Learning = ({ classes, inputs, data, history }) => (
             </Typography>
             <ResponsiveContainer>
               <LineChart data={history} margin={margin} syncId="history">
-                <Line dataKey="loss" dot={false} isAnimationActive={false} />
                 <CartesianGrid />
+                <Tooltip isAnimationActive={false} />
+                <Line dataKey="loss" dot={false} isAnimationActive={false} />
                 <XAxis dataKey="epoch" type="number" allowDecimals={false}>
                   <Label
                     value="Epoch"
@@ -110,7 +111,6 @@ const Learning = ({ classes, inputs, data, history }) => (
                     className={classes.label}
                   />
                 </YAxis>
-                <Tooltip isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -121,12 +121,13 @@ const Learning = ({ classes, inputs, data, history }) => (
             </Typography>
             <ResponsiveContainer>
               <LineChart data={history} margin={margin} syncId="history">
+                <CartesianGrid />
+                <Tooltip isAnimationActive={false} />
                 <Line
                   dataKey="accuracy"
                   dot={false}
                   isAnimationActive={false}
                 />
-                <CartesianGrid />
                 <XAxis dataKey="epoch" type="number" allowDecimals={false}>
                   <Label
                     value="Epoch"
@@ -142,7 +143,6 @@ const Learning = ({ classes, inputs, data, history }) => (
                     className={classes.label}
                   />
                 </YAxis>
-                <Tooltip isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>

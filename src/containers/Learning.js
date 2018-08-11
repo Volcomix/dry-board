@@ -54,9 +54,6 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 10,
     marginBottom: theme.spacing.unit,
   },
-  brush: {
-    transform: `translateY(${theme.spacing.unit * 3}px)`,
-  },
 })
 
 const Learning = ({ classes, inputs, data, history }) => (
@@ -83,7 +80,7 @@ const Learning = ({ classes, inputs, data, history }) => (
             <Bar dataKey="target" dot={false} fill={chartColors(0)} />
             <XAxis dataKey="date" hide={true} />
             <YAxis ticks={[-1, 0, 1]} />
-            <Brush className={classes.brush} />
+            <Brush y={chartHeight - 40} />
           </BarChart>
         </ResponsiveContainer>
       </Paper>

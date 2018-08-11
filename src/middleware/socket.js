@@ -2,6 +2,7 @@ import io from 'socket.io-client'
 
 import {
   receiveDemoMode,
+  receiveLearningInputs,
   receiveLearningData,
   receiveLearningHistory,
 } from '../actions'
@@ -13,6 +14,9 @@ export default store => {
   })
   socket.on('demoMode', demoMode => {
     store.dispatch(receiveDemoMode(demoMode))
+  })
+  socket.on('learningInputs', inputs => {
+    store.dispatch(receiveLearningInputs(inputs))
   })
   socket.on('learningData', data => {
     store.dispatch(receiveLearningData(data))

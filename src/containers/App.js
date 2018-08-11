@@ -33,8 +33,8 @@ const styles = theme => ({
 
 const App = ({ classes, demoMode }) => (
   <React.Fragment>
-    <AppBar position="static">
-      <CssBaseline />
+    <CssBaseline />
+    <AppBar position="fixed">
       <Toolbar>
         <Typography variant="title" color="inherit" className={classes.title}>
           Dry Board

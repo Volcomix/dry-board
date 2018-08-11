@@ -1,5 +1,6 @@
 import {
   RECEIVE_DEMO_MODE,
+  RECEIVE_LEARNING_INPUTS,
   RECEIVE_LEARNING_DATA,
   RECEIVE_LEARNING_HISTORY,
 } from '../constants/actionTypes'
@@ -7,6 +8,11 @@ import {
 export const receiveDemoMode = demoMode => ({
   type: RECEIVE_DEMO_MODE,
   demoMode,
+})
+
+export const receiveLearningInputs = inputs => ({
+  type: RECEIVE_LEARNING_INPUTS,
+  inputs,
 })
 
 export const receiveLearningData = data => ({

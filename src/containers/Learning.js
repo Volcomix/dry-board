@@ -66,7 +66,7 @@ const Learning = ({ classes, inputs, data, history }) => (
           <XAxis dataKey="date" hide={true} />
           <YAxis ticks={[-1, 0, 1]} />
           <Tooltip isAnimationActive={false} />
-          <Bar dataKey="target" dot={false} fill={chartColors(5)} />
+          <Bar dataKey="target" dot={false} fill={chartColors(0)} />
           <Brush />
         </BarChart>
       </ResponsiveContainer>,

@@ -16,20 +16,20 @@ import orange from '@material-ui/core/colors/orange'
 import deepOrange from '@material-ui/core/colors/deepOrange'
 
 export const colors = [
-  red,
-  indigo,
-  teal,
-  yellow,
-  pink,
   blue,
+  pink,
   green,
   amber,
-  purple,
+  indigo,
+  red,
+  teal,
+  yellow,
   lightBlue,
+  purple,
   lightGreen,
   orange,
-  deepPurple,
   cyan,
+  deepPurple,
   lime,
   deepOrange,
 ].map(color => color[500])

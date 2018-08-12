@@ -28,6 +28,7 @@ import {
   Tooltip,
   Brush,
 } from 'recharts'
+import moment from 'moment'
 
 import chartColors from '../constants/chartColors'
 import {
@@ -107,7 +108,12 @@ const Learning = ({
             <ResponsiveContainer height={chartHeight}>
               <LineChart data={inputs} margin={margin} syncId="inputs">
                 <CartesianGrid vertical={false} />
-                <Tooltip isAnimationActive={false} />
+                <Tooltip
+                  isAnimationActive={false}
+                  labelFormatter={date =>
+                    moment.utc(date).format('YYYY-MM-DD HH:mm')
+                  }
+                />
                 {Object.keys(inputs[0])
                   .filter(j => !['date', 'target'].includes(j))
                   .map((j, i) => (
@@ -126,7 +132,12 @@ const Learning = ({
             <ResponsiveContainer height={chartHeight}>
               <BarChart data={inputs} margin={margin} syncId="inputs">
                 <CartesianGrid vertical={false} />
-                <Tooltip isAnimationActive={false} />
+                <Tooltip
+                  isAnimationActive={false}
+                  labelFormatter={date =>
+                    moment.utc(date).format('YYYY-MM-DD HH:mm')
+                  }
+                />
                 <Bar
                   dataKey="target"
                   dot={false}
@@ -144,11 +155,17 @@ const Learning = ({
           <Table>
             <TableHead>
               <TableRow>
-                {Object.keys(inputs[0]).map(key => (
-                  <TableCell key={key} className={classes.tableCell}>
-                    {key}
-                  </TableCell>
-                ))}
+                <TableCell className={classes.tableCell}>date</TableCell>
+                {Object.keys(inputs[0])
+                  .filter(key => !['date', 'target'].includes(key))
+                  .map(key => (
+                    <TableCell key={key} className={classes.tableCell} numeric>
+                      {key}
+                    </TableCell>
+                  ))}
+                <TableCell className={classes.tableCell} numeric>
+                  target
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -159,19 +176,23 @@ const Learning = ({
                 )
                 .map(row => (
                   <TableRow key={row.date}>
-                    {Object.entries(row).map(([key, value]) => (
-                      <TableCell key={key} className={classes.tableCell}>
-                        {key === 'date' &&
-                          `${value.substring(0, 10)} ${value.substring(
-                            11,
-                            16,
-                          )}`}
-                        {key === 'target' && value}
-                        {!['date', 'target'].includes(key) &&
-                          value &&
-                          value.toFixed(4)}
-                      </TableCell>
-                    ))}
+                    <TableCell className={classes.tableCell}>
+                      {moment.utc(row.date).format('YYYY-MM-DD HH:mm')}
+                    </TableCell>
+                    {Object.entries(row)
+                      .filter(([key]) => !['date', 'target'].includes(key))
+                      .map(([key, value]) => (
+                        <TableCell
+                          key={key}
+                          className={classes.tableCell}
+                          numeric
+                        >
+                          {value && value.toFixed(4)}
+                        </TableCell>
+                      ))}
+                    <TableCell className={classes.tableCell} numeric>
+                      {row.target}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

@@ -42,16 +42,18 @@ const App = ({ classes, demoMode }) => (
         <Typography color="inherit" className={classes.label}>
           Demo mode:
         </Typography>
-        {demoMode === undefined ? (
-          <Tooltip title="Demo mode state is unknown">
+        {demoMode === undefined && (
+          <Tooltip title="Demo mode state is unknown" placement="bottom-end">
             <Icon className={classes.demoModeUnknown}>help</Icon>
           </Tooltip>
-        ) : demoMode ? (
-          <Tooltip title="Demo mode is enabled">
+        )}
+        {demoMode === true && (
+          <Tooltip title="Demo mode is enabled" placement="bottom-end">
             <Icon className={classes.demoModeEnabled}>check_circle</Icon>
           </Tooltip>
-        ) : (
-          <Tooltip title="Demo mode is disabled">
+        )}
+        {demoMode === false && (
+          <Tooltip title="Demo mode is disabled" placement="bottom-end">
             <Icon className={classes.demoModeDisabled}>error</Icon>
           </Tooltip>
         )}

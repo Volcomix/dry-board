@@ -1,8 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Table from '@material-ui/core/Table'
+import TableHead from '@material-ui/core/TableHead'
+import TableBody from '@material-ui/core/TableBody'
+import TableFooter from '@material-ui/core/TableFooter'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
+import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import {
   ResponsiveContainer,
@@ -19,6 +30,11 @@ import {
 } from 'recharts'
 
 import chartColors from '../constants/chartColors'
+import {
+  changeInputsView,
+  changeInputsPage,
+  changeInputsRowsPerPage,
+} from '../actions'
 
 const chartHeight = 300
 const margin = { left: 24, right: 42, bottom: 24 }
@@ -37,7 +53,11 @@ const styles = theme => ({
   label: {
     ...theme.typography.body1,
   },
-  inputs: {
+  tableCell: {
+    paddingRight: 12,
+  },
+  inputsCharts: {
+    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
   historyContainer: {
@@ -56,33 +76,118 @@ const styles = theme => ({
   },
 })
 
-const Learning = ({ classes, inputs, data, history }) => (
+const Learning = ({
+  classes,
+  inputs,
+  data,
+  history,
+  inputsView,
+  inputsPage,
+  inputsRowsPerPage,
+  onInputsChangeView,
+  onInputsChangePage,
+  onInputsChangeRowsPerPage,
+}) => (
   <div className={classes.container}>
     {inputs && (
-      <Paper className={classNames(classes.card, classes.inputs)}>
-        <ResponsiveContainer height={chartHeight}>
-          <LineChart data={inputs} margin={margin} syncId="inputs">
-            <CartesianGrid vertical={false} />
-            <Tooltip isAnimationActive={false} />
-            {Object.keys(inputs[0])
-              .filter(j => !['date', 'target'].includes(j))
-              .map((j, i) => (
-                <Line key={j} dataKey={j} dot={false} stroke={chartColors(i)} />
-              ))}
-            <XAxis dataKey="date" hide={true} />
-            <YAxis />
-          </LineChart>
-        </ResponsiveContainer>
-        <ResponsiveContainer height={chartHeight}>
-          <BarChart data={inputs} margin={margin} syncId="inputs">
-            <CartesianGrid vertical={false} />
-            <Tooltip isAnimationActive={false} />
-            <Bar dataKey="target" dot={false} fill={chartColors(0)} />
-            <XAxis dataKey="date" hide={true} />
-            <YAxis ticks={[-1, 0, 1]} />
-            <Brush y={chartHeight - 40} />
-          </BarChart>
-        </ResponsiveContainer>
+      <Paper>
+        <Tabs
+          value={inputsView}
+          onChange={onInputsChangeView}
+          indicatorColor="secondary"
+          textColor="secondary"
+          centered
+        >
+          <Tab icon={<Icon>show_chart</Icon>} value="charts" />
+          <Tab icon={<Icon>grid_on</Icon>} value="table" />
+        </Tabs>
+        <Divider />
+        {inputsView === 'charts' && (
+          <div className={classes.inputsCharts}>
+            <ResponsiveContainer height={chartHeight}>
+              <LineChart data={inputs} margin={margin} syncId="inputs">
+                <CartesianGrid vertical={false} />
+                <Tooltip isAnimationActive={false} />
+                {Object.keys(inputs[0])
+                  .filter(j => !['date', 'target'].includes(j))
+                  .map((j, i) => (
+                    <Line
+                      key={j}
+                      dataKey={j}
+                      dot={false}
+                      isAnimationActive={false}
+                      stroke={chartColors(i)}
+                    />
+                  ))}
+                <XAxis dataKey="date" hide={true} />
+                <YAxis />
+              </LineChart>
+            </ResponsiveContainer>
+            <ResponsiveContainer height={chartHeight}>
+              <BarChart data={inputs} margin={margin} syncId="inputs">
+                <CartesianGrid vertical={false} />
+                <Tooltip isAnimationActive={false} />
+                <Bar
+                  dataKey="target"
+                  dot={false}
+                  isAnimationActive={false}
+                  fill={chartColors(0)}
+                />
+                <XAxis dataKey="date" hide={true} />
+                <YAxis ticks={[-1, 0, 1]} />
+                <Brush y={chartHeight - 40} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+        {inputsView === 'table' && (
+          <Table>
+            <TableHead>
+              <TableRow>
+                {Object.keys(inputs[0]).map(key => (
+                  <TableCell key={key} className={classes.tableCell}>
+                    {key}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {inputs
+                .slice(
+                  inputsPage * inputsRowsPerPage,
+                  inputsPage * inputsRowsPerPage + inputsRowsPerPage,
+                )
+                .map(row => (
+                  <TableRow key={row.date}>
+                    {Object.entries(row).map(([key, value]) => (
+                      <TableCell key={key} className={classes.tableCell}>
+                        {key === 'date' &&
+                          `${value.substring(0, 10)} ${value.substring(
+                            11,
+                            16,
+                          )}`}
+                        {key === 'target' && value}
+                        {!['date', 'target'].includes(key) &&
+                          value &&
+                          value.toFixed(4)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  count={inputs.length}
+                  page={inputsPage}
+                  rowsPerPage={inputsRowsPerPage}
+                  onChangePage={onInputsChangePage}
+                  onChangeRowsPerPage={onInputsChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        )}
       </Paper>
     )}
     {data && (
@@ -93,7 +198,13 @@ const Learning = ({ classes, inputs, data, history }) => (
               <CartesianGrid vertical={false} />
               <Tooltip isAnimationActive={false} />
               {Object.keys(chart[0]).map(j => (
-                <Line key={j} dataKey={j} dot={false} stroke={chartColors(j)} />
+                <Line
+                  key={j}
+                  dataKey={j}
+                  dot={false}
+                  isAnimationActive={false}
+                  stroke={chartColors(j)}
+                />
               ))}
               <YAxis />
             </LineChart>
@@ -172,6 +283,19 @@ const mapStateToProps = state => ({
   inputs: state.learningInputs,
   data: state.learningData,
   history: state.learningHistory,
+  inputsView: state.inputsView,
+  inputsPage: state.inputsPage,
+  inputsRowsPerPage: state.inputsRowsPerPage,
 })
 
-export default connect(mapStateToProps)(withStyles(styles)(Learning))
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onInputsChangeView: (event, view) => dispatch(changeInputsView(view)),
+  onInputsChangePage: (event, page) => dispatch(changeInputsPage(page)),
+  onInputsChangeRowsPerPage: event =>
+    dispatch(changeInputsRowsPerPage(event.target.value)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(Learning))

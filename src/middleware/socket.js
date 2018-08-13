@@ -1,6 +1,8 @@
 import io from 'socket.io-client'
 
 import {
+  connected,
+  disconnected,
   receiveDemoMode,
   receiveLearningInputs,
   receiveLearningData,
@@ -10,8 +12,11 @@ import {
 
 export default store => {
   const socket = io()
+  socket.on('connect', () => {
+    store.dispatch(connected())
+  })
   socket.on('disconnect', () => {
-    store.dispatch(receiveDemoMode())
+    store.dispatch(disconnected())
   })
   socket.on('demoMode', demoMode => {
     store.dispatch(receiveDemoMode(demoMode))

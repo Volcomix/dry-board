@@ -1,4 +1,6 @@
 import {
+  CONNECTED,
+  DISCONNECTED,
   RECEIVE_DEMO_MODE,
   RECEIVE_LEARNING_INPUTS,
   RECEIVE_LEARNING_DATA,
@@ -10,6 +12,7 @@ import {
 } from '../constants/actionTypes'
 
 const initialState = {
+  isConnected: false,
   demoMode: undefined,
   learningInputs: undefined,
   learningData: undefined,
@@ -22,6 +25,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case CONNECTED:
+      return { ...state, isConnected: true }
+    case DISCONNECTED:
+      return { ...state, isConnected: false }
     case RECEIVE_DEMO_MODE:
       return { ...state, demoMode: action.demoMode }
     case RECEIVE_LEARNING_INPUTS:

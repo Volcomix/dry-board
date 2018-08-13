@@ -1,4 +1,6 @@
 import {
+  CONNECTED,
+  DISCONNECTED,
   RECEIVE_DEMO_MODE,
   RECEIVE_LEARNING_INPUTS,
   RECEIVE_LEARNING_DATA,
@@ -8,6 +10,14 @@ import {
   CHANGE_INPUTS_PAGE,
   CHANGE_INPUTS_ROWS_PER_PAGE,
 } from '../constants/actionTypes'
+
+export const connected = () => ({
+  type: CONNECTED,
+})
+
+export const disconnected = () => ({
+  type: DISCONNECTED,
+})
 
 export const receiveDemoMode = demoMode => ({
   type: RECEIVE_DEMO_MODE,

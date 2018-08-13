@@ -31,7 +31,7 @@ const styles = theme => ({
 const AppBarContent = ({ classes, isConnected }) => (
   <Toolbar>
     <Typography variant="title" color="inherit" className={classes.title}>
-      Dry Board
+      Quotes source
     </Typography>
     {isConnected ? (
       <Tooltip title="Connected" placement="bottom-end">

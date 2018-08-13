@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import MuiAppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
@@ -29,31 +28,29 @@ const styles = theme => ({
   },
 })
 
-const AppBar = ({ classes, isConnected }) => (
-  <MuiAppBar>
-    <Toolbar>
-      <Typography variant="title" color="inherit" className={classes.title}>
-        Dry Board
-      </Typography>
-      {isConnected ? (
-        <Tooltip title="Connected" placement="bottom-end">
-          <Typography color="inherit" className={classes.connection}>
-            <Icon>sync</Icon>
-          </Typography>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Disconnected" placement="bottom-end">
-          <Typography className={classNames(classes.connection, classes.error)}>
-            <Icon>sync_disabled</Icon>
-          </Typography>
-        </Tooltip>
-      )}
-    </Toolbar>
-  </MuiAppBar>
+const AppBarContent = ({ classes, isConnected }) => (
+  <Toolbar>
+    <Typography variant="title" color="inherit" className={classes.title}>
+      Dry Board
+    </Typography>
+    {isConnected ? (
+      <Tooltip title="Connected" placement="bottom-end">
+        <Typography color="inherit" className={classes.connection}>
+          <Icon>sync</Icon>
+        </Typography>
+      </Tooltip>
+    ) : (
+      <Tooltip title="Disconnected" placement="bottom-end">
+        <Typography className={classNames(classes.connection, classes.error)}>
+          <Icon>sync_disabled</Icon>
+        </Typography>
+      </Tooltip>
+    )}
+  </Toolbar>
 )
 
 const mapStateToProps = state => ({
   isConnected: state.isConnected,
 })
 
-export default connect(mapStateToProps)(withStyles(styles)(AppBar))
+export default connect(mapStateToProps)(withStyles(styles)(AppBarContent))

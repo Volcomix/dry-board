@@ -1,23 +1,42 @@
 import React from 'react'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { CssBaseline } from '@material-ui/core'
-import blue from '@material-ui/core/colors/blue'
-import pink from '@material-ui/core/colors/pink'
+import { withStyles } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Drawer from '@material-ui/core/Drawer'
 
-import AppBar from './AppBar'
+import withRoot from '../withRoot'
+import AppBarContent from './AppBarContent'
+import DrawerContent from './DrawerContent'
 
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: pink,
+const drawerWidth = 240
+
+const styles = {
+  title: {
+    flexGrow: 1,
   },
-})
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+  },
+  drawerPaper: {
+    position: 'relative',
+    width: drawerWidth,
+  },
+}
 
-const App = () => (
-  <MuiThemeProvider theme={theme}>
-    <CssBaseline />
-    <AppBar />
-  </MuiThemeProvider>
+const App = ({ classes }) => (
+  <React.Fragment>
+    <AppBar className={classes.appBar}>
+      <AppBarContent />
+    </AppBar>
+    <Drawer
+      variant="permanent"
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <DrawerContent />
+    </Drawer>
+  </React.Fragment>
 )
 
-export default App
+export default withRoot(withStyles(styles)(App))

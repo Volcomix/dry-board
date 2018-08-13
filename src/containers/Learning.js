@@ -356,7 +356,7 @@ const mapStateToProps = state => ({
   inputsRowsPerPage: state.inputsRowsPerPage,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   onInputsChangeView: (event, view) => dispatch(changeInputsView(view)),
   onInputsChangePage: (event, page) => dispatch(changeInputsPage(page)),
   onInputsChangeRowsPerPage: event =>

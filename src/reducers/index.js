@@ -3,6 +3,7 @@ import {
   RECEIVE_LEARNING_INPUTS,
   RECEIVE_LEARNING_DATA,
   RECEIVE_LEARNING_HISTORY,
+  RECEIVE_LEARNING_PREDICTIONS,
   CHANGE_INPUTS_VIEW,
   CHANGE_INPUTS_PAGE,
   CHANGE_INPUTS_ROWS_PER_PAGE,
@@ -13,6 +14,7 @@ const initialState = {
   learningInputs: undefined,
   learningData: undefined,
   learningHistory: undefined,
+  learningPredictions: undefined,
   inputsView: 'charts',
   inputsPage: 0,
   inputsRowsPerPage: 10,
@@ -28,6 +30,8 @@ export default (state = initialState, action) => {
       return { ...state, learningData: action.data }
     case RECEIVE_LEARNING_HISTORY:
       return { ...state, learningHistory: action.history }
+    case RECEIVE_LEARNING_PREDICTIONS:
+      return { ...state, learningPredictions: action.predictions }
     case CHANGE_INPUTS_VIEW:
       return { ...state, inputsView: action.view }
     case CHANGE_INPUTS_PAGE:

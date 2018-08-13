@@ -5,6 +5,7 @@ import {
   receiveLearningInputs,
   receiveLearningData,
   receiveLearningHistory,
+  receiveLearningPredictions,
 } from '../actions'
 
 export default store => {
@@ -23,6 +24,9 @@ export default store => {
   })
   socket.on('learningHistory', history => {
     store.dispatch(receiveLearningHistory(history))
+  })
+  socket.on('learningPredictions', predictions => {
+    store.dispatch(receiveLearningPredictions(predictions))
   })
   return next => action => next(action)
 }

@@ -21,6 +21,7 @@ import {
   BarChart,
   Line,
   Bar,
+  Cell,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -51,11 +52,15 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
     paddingTop: theme.spacing.unit * 2,
   },
-  label: {
-    ...theme.typography.body1,
-  },
   tableCell: {
     paddingRight: 12,
+  },
+  chartLabel: {
+    marginLeft: theme.spacing.unit * 10,
+    marginBottom: theme.spacing.unit,
+  },
+  axisLabel: {
+    ...theme.typography.body1,
   },
   inputsCharts: {
     paddingTop: theme.spacing.unit * 2,
@@ -71,10 +76,6 @@ const styles = theme => ({
     flexDirection: 'column',
     overflow: 'hidden',
   },
-  historyLabel: {
-    marginLeft: theme.spacing.unit * 10,
-    marginBottom: theme.spacing.unit,
-  },
 })
 
 const Learning = ({
@@ -82,6 +83,7 @@ const Learning = ({
   inputs,
   data,
   history,
+  predictions,
   inputsView,
   inputsPage,
   inputsRowsPerPage,
@@ -237,7 +239,7 @@ const Learning = ({
       history.length && (
         <Paper className={classNames(classes.card, classes.historyContainer)}>
           <div className={classes.history}>
-            <Typography className={classes.historyLabel}>
+            <Typography className={classes.chartLabel}>
               Last loss: {history[history.length - 1].loss.toFixed(2)}
             </Typography>
             <ResponsiveContainer>
@@ -249,7 +251,7 @@ const Learning = ({
                   <Label
                     value="Epoch"
                     position="bottom"
-                    className={classes.label}
+                    className={classes.axisLabel}
                   />
                 </XAxis>
                 <YAxis>
@@ -257,14 +259,14 @@ const Learning = ({
                     value="Loss"
                     position="left"
                     angle={-90}
-                    className={classes.label}
+                    className={classes.axisLabel}
                   />
                 </YAxis>
               </LineChart>
             </ResponsiveContainer>
           </div>
           <div className={classes.history}>
-            <Typography className={classes.historyLabel}>
+            <Typography className={classes.chartLabel}>
               Last accuracy:{' '}
               {(history[history.length - 1].accuracy * 100).toFixed(2)}%
             </Typography>
@@ -281,7 +283,7 @@ const Learning = ({
                   <Label
                     value="Epoch"
                     position="bottom"
-                    className={classes.label}
+                    className={classes.axisLabel}
                   />
                 </XAxis>
                 <YAxis>
@@ -289,7 +291,7 @@ const Learning = ({
                     position="left"
                     angle={-90}
                     value="Accuracy"
-                    className={classes.label}
+                    className={classes.axisLabel}
                   />
                 </YAxis>
               </LineChart>
@@ -297,6 +299,50 @@ const Learning = ({
           </div>
         </Paper>
       )}
+    {predictions && (
+      <Paper className={classes.card}>
+        <Typography className={classes.chartLabel}>
+          Correct predictions:
+          {(() => {
+            const strongest = predictions.filter(
+              entry => 1 - Math.abs(entry.prediction) < 0.5,
+            )
+            const sum = strongest.reduce((sum, entry) => {
+              if (Math.abs(entry.target - entry.prediction) < 0.5) {
+                return sum + 1
+              }
+              return sum
+            }, 0)
+            return ` ${((100 * sum) / strongest.length).toFixed(2)}%`
+          })()}
+        </Typography>
+        <ResponsiveContainer height={chartHeight}>
+          <BarChart data={predictions} margin={margin}>
+            <CartesianGrid vertical={false} />
+            <Tooltip isAnimationActive={false} />
+            <Bar dataKey="prediction" dot={false} isAnimationActive={false}>
+              {predictions.map((entry, i) => (
+                <Cell
+                  key={`cell-${i}`}
+                  fill={(() => {
+                    if (1 - Math.abs(entry.prediction) >= 0.5) {
+                      return 'rgba(0, 0, 0, 0.2)'
+                    } else if (
+                      Math.abs(entry.target - entry.prediction) < 0.5
+                    ) {
+                      return 'green'
+                    } else {
+                      return 'red'
+                    }
+                  })()}
+                />
+              ))}
+            </Bar>
+            <YAxis ticks={[-1, -0.5, 0, 0.5, 1]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </Paper>
+    )}
   </div>
 )
 
@@ -304,6 +350,7 @@ const mapStateToProps = state => ({
   inputs: state.learningInputs,
   data: state.learningData,
   history: state.learningHistory,
+  predictions: state.learningPredictions,
   inputsView: state.inputsView,
   inputsPage: state.inputsPage,
   inputsRowsPerPage: state.inputsRowsPerPage,

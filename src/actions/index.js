@@ -3,6 +3,7 @@ import {
   RECEIVE_LEARNING_INPUTS,
   RECEIVE_LEARNING_DATA,
   RECEIVE_LEARNING_HISTORY,
+  RECEIVE_LEARNING_PREDICTIONS,
   CHANGE_INPUTS_VIEW,
   CHANGE_INPUTS_PAGE,
   CHANGE_INPUTS_ROWS_PER_PAGE,
@@ -26,6 +27,11 @@ export const receiveLearningData = data => ({
 export const receiveLearningHistory = history => ({
   type: RECEIVE_LEARNING_HISTORY,
   history,
+})
+
+export const receiveLearningPredictions = predictions => ({
+  type: RECEIVE_LEARNING_PREDICTIONS,
+  predictions,
 })
 
 export const changeInputsView = view => ({

@@ -24,7 +24,7 @@ const styles = theme => ({
   },
   error: {
     color: theme.palette.error.contrastText,
-    backgroundColor: theme.palette.error.main,
+    backgroundColor: theme.palette.error.dark,
   },
 })
 
@@ -36,13 +36,13 @@ const AppBarContent = ({ classes, isConnected }) => (
     {isConnected ? (
       <Tooltip title="Connected" placement="bottom-end">
         <Typography color="inherit" className={classes.connection}>
-          <Icon>sync</Icon>
+          <Icon>cloud_done</Icon>
         </Typography>
       </Tooltip>
     ) : (
       <Tooltip title="Disconnected" placement="bottom-end">
         <Typography className={classNames(classes.connection, classes.error)}>
-          <Icon>sync_disabled</Icon>
+          <Icon>cloud_off</Icon>
         </Typography>
       </Tooltip>
     )}

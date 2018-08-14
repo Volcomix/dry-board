@@ -8,15 +8,17 @@ import Icon from '@material-ui/core/Icon'
 const styles = theme => ({
   card: {
     display: 'flex',
-    justifyContent: 'center',
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'center',
+    },
   },
   header: {
     alignItems: 'start',
   },
   avatar: {
     backgroundColor: 'unset',
-    fontSize: 32,
     height: 'unset',
+    fontSize: 32,
   },
 })
 

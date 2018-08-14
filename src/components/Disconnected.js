@@ -8,7 +8,7 @@ import Icon from '@material-ui/core/Icon'
 const styles = theme => ({
   card: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       justifyContent: 'center',
     },
   },

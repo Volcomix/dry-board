@@ -1,0 +1,40 @@
+import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import Avatar from '@material-ui/core/Avatar'
+import Icon from '@material-ui/core/Icon'
+
+const styles = theme => ({
+  card: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'start',
+  },
+  avatar: {
+    backgroundColor: 'unset',
+    fontSize: 32,
+    height: 'unset',
+  },
+})
+
+const Disconnected = ({ classes }) => (
+  <Card className={classes.card}>
+    <CardHeader
+      className={classes.header}
+      avatar={
+        <Avatar className={classes.avatar}>
+          <Icon color="primary" fontSize="inherit">
+            cloud_off
+          </Icon>
+        </Avatar>
+      }
+      title="Disconnected"
+      subheader="You have been disconnected from the Dry Moose server."
+    />
+  </Card>
+)
+
+export default withStyles(styles)(Disconnected)

@@ -4,7 +4,6 @@ import Divider from '@material-ui/core/Divider'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepButton from '@material-ui/core/StepButton'
-import StepLabel from '@material-ui/core/StepLabel'
 import StepContent from '@material-ui/core/StepContent'
 import Typography from '@material-ui/core/Typography'
 
@@ -16,9 +15,17 @@ const DrawerContent = () => (
       </Typography>
     </Toolbar>
     <Divider />
-    <Stepper activeStep={2} orientation="vertical">
+    <Stepper activeStep={0} orientation="vertical">
       <Step>
-        <StepButton>Market Source</StepButton>
+        <StepButton>Backend browser</StepButton>
+        <StepContent>
+          <Typography>
+            Manage the browser instance which is used by Dry Moose.
+          </Typography>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepButton>Market source</StepButton>
         <StepContent>
           <Typography>Choose market source.</Typography>
         </StepContent>
@@ -30,19 +37,19 @@ const DrawerContent = () => (
         </StepContent>
       </Step>
       <Step>
-        <StepLabel>Quotes source</StepLabel>
+        <StepButton>Quotes source</StepButton>
         <StepContent>
           <Typography>Choose quotes source.</Typography>
         </StepContent>
       </Step>
       <Step>
-        <StepLabel>Prepare data</StepLabel>
+        <StepButton>Prepare data</StepButton>
         <StepContent>
           <Typography>Prepare data for training.</Typography>
         </StepContent>
       </Step>
       <Step>
-        <StepLabel>Train</StepLabel>
+        <StepButton>Train</StepButton>
         <StepContent>
           <Typography>Configure machine learning for training.</Typography>
         </StepContent>

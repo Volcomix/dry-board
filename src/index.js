@@ -4,11 +4,12 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 
 import reducer from './reducers'
-import socket from './middleware/socket'
+import dryMoose from './middleware/dryMoose'
+import browser from './middleware/browser'
 import App from './containers/App'
 import registerServiceWorker from './registerServiceWorker'
 
-const store = createStore(reducer, applyMiddleware(socket))
+const store = createStore(reducer, applyMiddleware(dryMoose, browser))
 
 ReactDOM.render(
   <Provider store={store}>

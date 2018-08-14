@@ -14,6 +14,7 @@ import withRoot from '../withRoot'
 import { toggleDrawer } from '../actions/layout'
 import DrawerContent from './DrawerContent'
 import Disconnected from '../components/Disconnected'
+import Browser from './Browser'
 
 const drawerWidth = 240
 
@@ -37,9 +38,11 @@ const styles = theme => ({
     },
   },
   menuButton: {
-    marginRight: theme.spacing.unit * 2,
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing.unit * 3,
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing.unit * 2,
     },
     [theme.breakpoints.up('md')]: {
       display: 'none',
@@ -50,7 +53,12 @@ const styles = theme => ({
     flexGrow: 1,
   },
   content: {
-    padding: theme.spacing.unit * 3,
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing.unit * 3,
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing.unit * 2,
+    },
   },
 })
 
@@ -66,7 +74,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           <Icon>menu</Icon>
         </IconButton>
         <Typography variant="title" color="inherit" noWrap>
-          Quotes source
+          Backend browser
         </Typography>
       </Toolbar>
     </AppBar>
@@ -100,7 +108,9 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
       <Slide direction="down" in={!isConnected} mountOnEnter unmountOnExit>
         <Disconnected />
       </Slide>
-      <main className={classes.content} />
+      <main className={classes.content}>
+        <Browser />
+      </main>
     </div>
   </div>
 )

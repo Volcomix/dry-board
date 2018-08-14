@@ -22,7 +22,10 @@ const styles = theme => ({
     display: 'flex',
   },
   appBar: {
-    marginLeft: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: theme.transitions.duration.standard,
+    }),
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },

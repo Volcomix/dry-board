@@ -11,7 +11,7 @@ import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 
 import withRoot from '../withRoot'
-import { toggleDrawer } from '../actions'
+import { toggleDrawer } from '../actions/layout'
 import DrawerContent from './DrawerContent'
 import Disconnected from '../components/Disconnected'
 
@@ -106,8 +106,8 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
 )
 
 const mapStateToProps = state => ({
-  isDrawerOpen: state.isDrawerOpen,
-  isConnected: state.isConnected,
+  isDrawerOpen: state.layout.isDrawerOpen,
+  isConnected: state.dryMoose.isConnected,
 })
 
 const mapDispatchToProps = dispatch => ({

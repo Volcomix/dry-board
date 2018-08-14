@@ -105,9 +105,9 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
   </div>
 )
 
-const mapStateToProps = state => ({
-  isDrawerOpen: state.layout.isDrawerOpen,
-  isConnected: state.dryMoose.isConnected,
+const mapStateToProps = ({ layout, dryMoose }) => ({
+  isDrawerOpen: layout.isDrawerOpen,
+  isConnected: dryMoose.isConnected,
 })
 
 const mapDispatchToProps = dispatch => ({

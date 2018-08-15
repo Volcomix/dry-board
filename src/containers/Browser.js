@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
@@ -8,7 +10,18 @@ import Typography from '@material-ui/core/Typography'
 
 import { startBrowser } from '../actions/browser'
 
-const Browser = ({ isConnected, isStarted, onStartBrowser }) => {
+const styles = theme => ({
+  container: {
+    display: 'flex',
+  },
+  status: {
+    [theme.breakpoints.down('xs')]: {
+      flexGrow: 1,
+    },
+  },
+})
+
+const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => {
   let status
   if (isStarted === true) {
     status = 'Started'
@@ -18,22 +31,24 @@ const Browser = ({ isConnected, isStarted, onStartBrowser }) => {
     status = 'Unknown'
   }
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="caption">Backend browser status</Typography>
-        <Typography variant="title">{status}</Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          color="primary"
-          disabled={!isConnected || isStarted}
-          onClick={onStartBrowser}
-        >
-          Start
-        </Button>
-      </CardActions>
-    </Card>
+    <div className={classes.container}>
+      <Card className={classes.status}>
+        <CardContent>
+          <Typography variant="caption">Backend browser status</Typography>
+          <Typography variant="title">{status}</Typography>
+        </CardContent>
+        <CardActions>
+          <Button
+            size="small"
+            color="primary"
+            disabled={!isConnected || isStarted}
+            onClick={onStartBrowser}
+          >
+            Start
+          </Button>
+        </CardActions>
+      </Card>
+    </div>
   )
 }
 
@@ -46,7 +61,10 @@ const mapDispatchToProps = dispatch => ({
   onStartBrowser: () => dispatch(startBrowser()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(Browser)

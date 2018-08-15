@@ -6,7 +6,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Hidden from '@material-ui/core/Hidden'
 import Drawer from '@material-ui/core/Drawer'
-import Slide from '@material-ui/core/Slide'
+import Collapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
@@ -54,6 +54,11 @@ const styles = theme => ({
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
+  },
+  disconnected: {
+    flexShrink: 0,
+    boxShadow: theme.shadows[4],
+    zIndex: theme.zIndex.appBar,
   },
   content: {
     overflow: 'auto',
@@ -109,9 +114,14 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
     </Hidden>
     <div className={classes.container}>
       <div className={classes.toolbar} />
-      <Slide direction="down" in={!isConnected} mountOnEnter unmountOnExit>
+      <Collapse
+        in={!isConnected}
+        mountOnEnter
+        unmountOnExit
+        className={classes.disconnected}
+      >
         <Disconnected />
-      </Slide>
+      </Collapse>
       <main className={classes.content}>
         <Browser />
       </main>

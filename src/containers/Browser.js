@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
+import classNames from 'classnames'
 
 import { startBrowser } from '../actions/browser'
 
@@ -15,10 +18,18 @@ const styles = theme => ({
   container: {
     display: 'flex',
   },
-  status: {
+  card: {
     [theme.breakpoints.down('xs')]: {
       flexGrow: 1,
     },
+  },
+  content: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    fontSize: 32,
+    marginRight: theme.spacing.unit,
   },
   started: {
     color: green['A700'],
@@ -33,23 +44,32 @@ const styles = theme => ({
 
 const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => (
   <div className={classes.container}>
-    <Card className={classes.status}>
-      <CardContent>
-        <Typography variant="caption">Backend browser status</Typography>
+    <Card className={classes.card}>
+      <CardHeader subheader="Backend browser status" />
+      <CardContent className={classes.content}>
         {isStarted === true && (
-          <Typography variant="title" className={classes.started}>
-            Started
-          </Typography>
+          <React.Fragment>
+            <Icon className={classNames(classes.icon, classes.started)}>
+              check_circle
+            </Icon>
+            <Typography variant="headline">Started</Typography>
+          </React.Fragment>
         )}
         {isStarted === false && (
-          <Typography variant="title" className={classes.stopped}>
-            Stopped
-          </Typography>
+          <React.Fragment>
+            <Icon className={classNames(classes.icon, classes.stopped)}>
+              cancel
+            </Icon>
+            <Typography variant="headline">Stopped</Typography>
+          </React.Fragment>
         )}
         {isStarted === undefined && (
-          <Typography variant="title" className={classes.unknown}>
-            Unknown
-          </Typography>
+          <React.Fragment>
+            <Icon className={classNames(classes.icon, classes.unknown)}>
+              help
+            </Icon>
+            <Typography variant="headline">Unknown</Typography>
+          </React.Fragment>
         )}
       </CardContent>
       <CardActions>

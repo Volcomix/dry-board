@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -10,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 
-import withRoot from '../withRoot'
 import { toggleDrawer } from '../actions/layout'
 import DrawerContent from './DrawerContent'
 import Disconnected from '../components/Disconnected'
@@ -124,7 +124,10 @@ const mapDispatchToProps = dispatch => ({
   onToggleDrawer: () => dispatch(toggleDrawer()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRoot(withStyles(styles)(App)))
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(App)

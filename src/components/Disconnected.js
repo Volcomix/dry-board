@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon'
 
 const styles = theme => ({
   card: {
+    flexShrink: 0,
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
       justifyContent: 'center',
@@ -23,7 +24,7 @@ const styles = theme => ({
 })
 
 const Disconnected = ({ classes }) => (
-  <Card className={classes.card}>
+  <Card elevation={3} className={classes.card}>
     <CardHeader
       className={classes.header}
       avatar={

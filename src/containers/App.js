@@ -51,8 +51,12 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
   container: {
     flexGrow: 1,
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
   },
   content: {
+    overflow: 'auto',
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing.unit * 3,
     },

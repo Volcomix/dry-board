@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
@@ -84,7 +85,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           <Icon>menu</Icon>
         </IconButton>
         <Typography variant="title" color="inherit" noWrap>
-          Backend browser
+          <Route path="/browser" render={() => 'Backend browser'} />
         </Typography>
       </Toolbar>
     </AppBar>
@@ -100,7 +101,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           keepMounted: true, // Better open performance on mobile.
         }}
       >
-        <DrawerContent />
+        <DrawerContent onClose={onToggleDrawer} />
       </Drawer>
     </Hidden>
     <Hidden smDown implementation="css">
@@ -124,7 +125,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
         <Disconnected />
       </Collapse>
       <main className={classes.content}>
-        <Browser />
+        <Route path="/browser" component={Browser} />
       </main>
     </div>
   </div>
@@ -140,6 +141,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
+  withRouter,
   withStyles(styles),
   connect(
     mapStateToProps,

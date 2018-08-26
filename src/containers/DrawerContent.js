@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Toolbar from '@material-ui/core/Toolbar'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -8,7 +9,7 @@ import Divider from '@material-ui/core/Divider'
 import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 
-const DrawerContent = () => (
+const DrawerContent = ({ onClose }) => (
   <React.Fragment>
     <Toolbar>
       <Typography variant="title" color="textSecondary">
@@ -17,7 +18,7 @@ const DrawerContent = () => (
     </Toolbar>
     <Divider />
     <List>
-      <ListItem button>
+      <ListItem button component={Link} to="/browser" onClick={onClose}>
         <ListItemIcon>
           <Icon>web</Icon>
         </ListItemIcon>

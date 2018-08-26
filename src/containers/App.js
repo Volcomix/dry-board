@@ -33,9 +33,7 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      position: 'relative',
-    },
+    whiteSpace: 'nowrap',
   },
   menuButton: {
     [theme.breakpoints.up('sm')]: {
@@ -54,6 +52,9 @@ const styles = theme => ({
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: drawerWidth,
+    },
   },
   disconnected: {
     flexShrink: 0,

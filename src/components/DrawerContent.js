@@ -15,7 +15,12 @@ const styles = theme => ({
       color: theme.palette.primary.main,
     },
   },
-  item: {},
+  item: {
+    transition: theme.transitions.create('color', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: theme.transitions.duration.standard,
+    }),
+  },
 })
 
 const DrawerContent = ({ classes, routes, onClose }) => (

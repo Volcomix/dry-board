@@ -13,7 +13,7 @@ import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 
 import { toggleDrawer } from '../actions/layout'
-import DrawerContent from './DrawerContent'
+import DrawerContent from '../components/DrawerContent'
 import Disconnected from '../components/Disconnected'
 import Browser from './Browser'
 
@@ -73,6 +73,15 @@ const styles = theme => ({
   },
 })
 
+const routes = [
+  {
+    path: '/browser',
+    icon: 'web',
+    title: 'Backend browser',
+    component: Browser,
+  },
+]
+
 const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
   <div className={classes.root}>
     <AppBar className={classes.appBar}>
@@ -85,7 +94,9 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           <Icon>menu</Icon>
         </IconButton>
         <Typography variant="title" color="inherit" noWrap>
-          <Route path="/browser" render={() => 'Backend browser'} />
+          {routes.map(({ path, title }, i) => (
+            <Route key={i} path={path} render={() => title} />
+          ))}
         </Typography>
       </Toolbar>
     </AppBar>
@@ -101,7 +112,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           keepMounted: true, // Better open performance on mobile.
         }}
       >
-        <DrawerContent onClose={onToggleDrawer} />
+        <DrawerContent routes={routes} onClose={onToggleDrawer} />
       </Drawer>
     </Hidden>
     <Hidden smDown implementation="css">
@@ -111,7 +122,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           paper: classes.drawerPaper,
         }}
       >
-        <DrawerContent />
+        <DrawerContent routes={routes} />
       </Drawer>
     </Hidden>
     <div className={classes.container}>
@@ -125,7 +136,9 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
         <Disconnected />
       </Collapse>
       <main className={classes.content}>
-        <Route path="/browser" component={Browser} />
+        {routes.map(({ path, component }, i) => (
+          <Route key={i} path={path} component={component} />
+        ))}
       </main>
     </div>
   </div>

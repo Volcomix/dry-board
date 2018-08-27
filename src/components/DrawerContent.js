@@ -19,7 +19,7 @@ const styles = theme => ({
   item: {},
 })
 
-const DrawerContent = ({ classes, onClose }) => (
+const DrawerContent = ({ classes, routes, onClose }) => (
   <React.Fragment>
     <Toolbar>
       <Typography variant="title" color="textSecondary">
@@ -28,21 +28,24 @@ const DrawerContent = ({ classes, onClose }) => (
     </Toolbar>
     <Divider />
     <List>
-      <ListItem
-        button
-        component={NavLink}
-        to="/browser"
-        onClick={onClose}
-        activeClassName={classes.active}
-      >
-        <ListItemIcon className={classes.item}>
-          <Icon>web</Icon>
-        </ListItemIcon>
-        <ListItemText
-          primary="Backend browser"
-          primaryTypographyProps={{ className: classes.item }}
-        />
-      </ListItem>
+      {routes.map(({ path, icon, title }, i) => (
+        <ListItem
+          key={i}
+          button
+          component={NavLink}
+          to={path}
+          onClick={onClose}
+          activeClassName={classes.active}
+        >
+          <ListItemIcon className={classes.item}>
+            <Icon>{icon}</Icon>
+          </ListItemIcon>
+          <ListItemText
+            primary={title}
+            primaryTypographyProps={{ className: classes.item }}
+          />
+        </ListItem>
+      ))}
     </List>
   </React.Fragment>
 )

@@ -8,14 +8,17 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Hidden from '@material-ui/core/Hidden'
 import Drawer from '@material-ui/core/Drawer'
 import Collapse from '@material-ui/core/Collapse'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import WebIcon from '@material-ui/icons/Web'
 
 import { toggleDrawer } from '../actions/layout'
 import DrawerContent from '../components/DrawerContent'
 import Disconnected from '../components/Disconnected'
 import Browser from './Browser'
+import EToro from './EToro'
+import EToroIcon from '../icons/EToro'
 
 const drawerWidth = 240
 
@@ -76,9 +79,15 @@ const styles = theme => ({
 const routes = [
   {
     path: '/browser',
-    icon: 'web',
+    icon: WebIcon,
     title: 'Backend browser',
     component: Browser,
+  },
+  {
+    path: '/etoro',
+    icon: EToroIcon,
+    title: 'eToro',
+    component: EToro,
   },
 ]
 
@@ -91,7 +100,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
           onClick={onToggleDrawer}
           className={classes.menuButton}
         >
-          <Icon>menu</Icon>
+          <MenuIcon />
         </IconButton>
         <Typography variant="title" color="inherit" noWrap>
           {routes.map(({ path, title }, i) => (

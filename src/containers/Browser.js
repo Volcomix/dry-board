@@ -7,8 +7,10 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import CancelIcon from '@material-ui/icons/Cancel'
+import HelpIcon from '@material-ui/icons/Help'
 import green from '@material-ui/core/colors/green'
 import classNames from 'classnames'
 
@@ -49,25 +51,21 @@ const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => (
       <CardContent className={classes.content}>
         {isStarted === true && (
           <React.Fragment>
-            <Icon className={classNames(classes.icon, classes.started)}>
-              check_circle
-            </Icon>
+            <CheckCircleIcon
+              className={classNames(classes.icon, classes.started)}
+            />
             <Typography variant="headline">Started</Typography>
           </React.Fragment>
         )}
         {isStarted === false && (
           <React.Fragment>
-            <Icon className={classNames(classes.icon, classes.stopped)}>
-              cancel
-            </Icon>
+            <CancelIcon className={classNames(classes.icon, classes.stopped)} />
             <Typography variant="headline">Stopped</Typography>
           </React.Fragment>
         )}
         {isStarted === undefined && (
           <React.Fragment>
-            <Icon className={classNames(classes.icon, classes.unknown)}>
-              help
-            </Icon>
+            <HelpIcon className={classNames(classes.icon, classes.unknown)} />
             <Typography variant="headline">Unknown</Typography>
           </React.Fragment>
         )}

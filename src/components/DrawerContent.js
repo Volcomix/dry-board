@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
@@ -28,7 +27,7 @@ const DrawerContent = ({ classes, routes, onClose }) => (
     </Toolbar>
     <Divider />
     <List>
-      {routes.map(({ path, icon, title }, i) => (
+      {routes.map(({ path, icon: Icon, title }, i) => (
         <ListItem
           key={i}
           button
@@ -38,7 +37,7 @@ const DrawerContent = ({ classes, routes, onClose }) => (
           activeClassName={classes.active}
         >
           <ListItemIcon className={classes.item}>
-            <Icon>{icon}</Icon>
+            <Icon />
           </ListItemIcon>
           <ListItemText
             primary={title}

@@ -7,13 +7,12 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Hidden from '@material-ui/core/Hidden'
 import Drawer from '@material-ui/core/Drawer'
-import Fade from '@material-ui/core/Fade'
 import Collapse from '@material-ui/core/Collapse'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import WebIcon from '@material-ui/icons/Web'
-import { TransitionGroup } from 'react-transition-group'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import { toggleDrawer } from '../actions/layout'
 import DrawerContent from '../components/DrawerContent'
@@ -82,6 +81,29 @@ const styles = theme => ({
       padding: theme.spacing.unit * 2,
     },
   },
+  pageEnter: {
+    zIndex: 1,
+    opacity: 0,
+    top: 20,
+  },
+  pageEnterActive: {
+    opacity: 1,
+    top: 0,
+    transition: theme.transitions.create(['opacity', 'top'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  pageExit: {
+    opacity: 1,
+  },
+  pageExitActive: {
+    opacity: 0,
+    transition: theme.transitions.create('opacity', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
 })
 
 const routes = [
@@ -99,7 +121,7 @@ const routes = [
   },
 ]
 
-const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
+const App = ({ classes, theme, isConnected, isDrawerOpen, onToggleDrawer }) => (
   <div className={classes.root}>
     <AppBar className={classes.appBar}>
       <Toolbar>
@@ -155,7 +177,19 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
       <Route
         render={({ location }) => (
           <TransitionGroup className={classes.content}>
-            <Fade key={location.key}>
+            <CSSTransition
+              key={location.key}
+              timeout={{
+                enter: theme.transitions.duration.enteringScreen,
+                exit: theme.transitions.duration.leavingScreen,
+              }}
+              classNames={{
+                enter: classes.pageEnter,
+                enterActive: classes.pageEnterActive,
+                exit: classes.pageExit,
+                exitActive: classes.pageExitActive,
+              }}
+            >
               <main className={classes.page}>
                 <Switch location={location}>
                   {routes.map(({ path, component }, i) => (
@@ -163,7 +197,7 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
                   ))}
                 </Switch>
               </main>
-            </Fade>
+            </CSSTransition>
           </TransitionGroup>
         )}
       />
@@ -182,7 +216,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withRouter,
-  withStyles(styles),
+  withStyles(styles, { withTheme: true }),
   connect(
     mapStateToProps,
     mapDispatchToProps,

@@ -67,13 +67,16 @@ const styles = theme => ({
     zIndex: theme.zIndex.appBar,
   },
   content: {
+    flexGrow: 1,
     position: 'relative',
   },
   page: {
     overflow: 'auto',
     position: 'absolute',
-    left: 0,
+    top: 0,
     right: 0,
+    bottom: 0,
+    left: 0,
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing.unit * 3,
     },

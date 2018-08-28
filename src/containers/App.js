@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
@@ -7,11 +7,13 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Hidden from '@material-ui/core/Hidden'
 import Drawer from '@material-ui/core/Drawer'
+import Fade from '@material-ui/core/Fade'
 import Collapse from '@material-ui/core/Collapse'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import WebIcon from '@material-ui/icons/Web'
+import { TransitionGroup } from 'react-transition-group'
 
 import { toggleDrawer } from '../actions/layout'
 import DrawerContent from '../components/DrawerContent'
@@ -66,7 +68,13 @@ const styles = theme => ({
     zIndex: theme.zIndex.appBar,
   },
   content: {
+    position: 'relative',
+  },
+  page: {
     overflow: 'auto',
+    position: 'absolute',
+    left: 0,
+    right: 0,
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing.unit * 3,
     },
@@ -144,11 +152,21 @@ const App = ({ classes, isConnected, isDrawerOpen, onToggleDrawer }) => (
       >
         <Disconnected />
       </Collapse>
-      <main className={classes.content}>
-        {routes.map(({ path, component }, i) => (
-          <Route key={i} path={path} component={component} />
-        ))}
-      </main>
+      <Route
+        render={({ location }) => (
+          <TransitionGroup className={classes.content}>
+            <Fade key={location.key}>
+              <main className={classes.page}>
+                <Switch location={location}>
+                  {routes.map(({ path, component }, i) => (
+                    <Route key={i} path={path} component={component} />
+                  ))}
+                </Switch>
+              </main>
+            </Fade>
+          </TransitionGroup>
+        )}
+      />
     </div>
   </div>
 )

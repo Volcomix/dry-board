@@ -87,14 +87,14 @@ const styles = theme => ({
   pageEnter: {
     zIndex: 1,
     opacity: 0,
-    top: 20,
+    top: 30,
   },
   pageEnterActive: {
     opacity: 1,
     top: 0,
     transition: theme.transitions.create(['opacity', 'top'], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.complex,
     }),
   },
   pageExit: {
@@ -104,7 +104,7 @@ const styles = theme => ({
     opacity: 0,
     transition: theme.transitions.create('opacity', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.shortest,
     }),
   },
 })
@@ -183,8 +183,8 @@ const App = ({ classes, theme, isConnected, isDrawerOpen, onToggleDrawer }) => (
             <CSSTransition
               key={location.key}
               timeout={{
-                enter: theme.transitions.duration.enteringScreen,
-                exit: theme.transitions.duration.leavingScreen,
+                enter: theme.transitions.duration.complex,
+                exit: theme.transitions.duration.shortest,
               }}
               classNames={{
                 enter: classes.pageEnter,

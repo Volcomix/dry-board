@@ -72,7 +72,7 @@ const Browser = ({
       </CardContent>
       <CardActions>
         <Button
-          variant="contained"
+          variant={isStarted ? 'text' : 'contained'}
           size="small"
           color="primary"
           disabled={!isConnected}

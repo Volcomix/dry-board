@@ -47,7 +47,7 @@ const EToro = ({
     </CardContent>
     <CardActions>
       <Button
-        variant="contained"
+        variant={status === 'stopped' ? 'contained' : 'text'}
         size="small"
         color="primary"
         disabled={!isConnected || !isBrowserStarted}

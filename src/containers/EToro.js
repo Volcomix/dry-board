@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
@@ -18,10 +20,19 @@ const steps = {
   started: 3,
 }
 
-const EToro = ({ isConnected, isBrowserStarted, status, onStartEToro }) => (
+const EToro = ({
+  width,
+  isConnected,
+  isBrowserStarted,
+  status,
+  onStartEToro,
+}) => (
   <Card>
     <CardContent>
-      <Stepper activeStep={steps[status]} orientation="vertical">
+      <Stepper
+        activeStep={steps[status]}
+        orientation={isWidthDown('xs', width) ? 'vertical' : 'horizontal'}
+      >
         <Step>
           <StepLabel>Login</StepLabel>
         </Step>
@@ -57,7 +68,10 @@ const mapDispatchToProps = dispatch => ({
   onStartEToro: () => dispatch(startEToro()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withWidth(),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(EToro)

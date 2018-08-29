@@ -49,10 +49,17 @@ const EToro = ({
         variant="contained"
         size="small"
         color="primary"
-        disabled={!isConnected || !isBrowserStarted || status !== 'stopped'}
+        disabled={!isConnected || !isBrowserStarted}
         onClick={onStartEToro}
       >
-        Start
+        {status === 'stopped' ? 'Start' : 'Restart'}
+      </Button>
+      <Button
+        size="small"
+        color="primary"
+        disabled={!isConnected || !isBrowserStarted || status === 'stopped'}
+      >
+        Stop
       </Button>
     </CardActions>
   </Card>

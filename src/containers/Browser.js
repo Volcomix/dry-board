@@ -69,10 +69,17 @@ const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => (
           variant="contained"
           size="small"
           color="primary"
-          disabled={!isConnected || isStarted}
+          disabled={!isConnected}
           onClick={onStartBrowser}
         >
-          Start
+          {isStarted ? 'Restart' : 'Start'}
+        </Button>
+        <Button
+          size="small"
+          color="primary"
+          disabled={!isConnected || !isStarted}
+        >
+          Stop
         </Button>
       </CardActions>
     </Card>

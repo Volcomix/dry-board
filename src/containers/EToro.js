@@ -14,10 +14,11 @@ import { startEToro, stopEToro } from '../actions/eToro'
 
 const steps = {
   stopped: -1,
-  login: 0,
-  backdrop: 1,
-  demoMode: 2,
-  started: 3,
+  open: 0,
+  login: 1,
+  backdrop: 2,
+  demoMode: 3,
+  started: 4,
 }
 
 const EToro = ({
@@ -35,13 +36,16 @@ const EToro = ({
         orientation={isWidthDown('xs', width) ? 'vertical' : 'horizontal'}
       >
         <Step>
+          <StepLabel>Open</StepLabel>
+        </Step>
+        <Step>
           <StepLabel>Login</StepLabel>
         </Step>
         <Step>
           <StepLabel>Backdrop</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Demo mode</StepLabel>
+          <StepLabel>Demo</StepLabel>
         </Step>
       </Stepper>
     </CardContent>

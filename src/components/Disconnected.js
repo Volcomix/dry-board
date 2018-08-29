@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
-import CloudOffIcon from '@material-ui/icons/CloudOff'
+import DisconnectedIcon from '@material-ui/icons/CloudOff'
 
 const styles = theme => ({
   card: {
@@ -28,7 +28,7 @@ const Disconnected = ({ classes }) => (
       className={classes.header}
       avatar={
         <Avatar className={classes.avatar}>
-          <CloudOffIcon color="primary" fontSize="inherit" />
+          <DisconnectedIcon color="primary" fontSize="inherit" />
         </Avatar>
       }
       title="Disconnected"

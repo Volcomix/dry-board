@@ -8,11 +8,9 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import CancelIcon from '@material-ui/icons/Cancel'
-import HelpIcon from '@material-ui/icons/Help'
-import green from '@material-ui/core/colors/green'
-import classNames from 'classnames'
+import StartedIcon from '@material-ui/icons/CheckCircle'
+import StoppedIcon from '@material-ui/icons/Warning'
+import UnknownIcon from '@material-ui/icons/Help'
 
 import { startBrowser } from '../actions/browser'
 
@@ -33,14 +31,8 @@ const styles = theme => ({
     fontSize: 32,
     marginRight: theme.spacing.unit,
   },
-  started: {
-    color: green['A700'],
-  },
-  stopped: {
-    color: theme.palette.error.main,
-  },
-  unknown: {
-    color: theme.palette.text.secondary,
+  disabled: {
+    color: theme.palette.text.disabled,
   },
 })
 
@@ -51,22 +43,24 @@ const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => (
       <CardContent className={classes.content}>
         {isStarted === true && (
           <React.Fragment>
-            <CheckCircleIcon
-              className={classNames(classes.icon, classes.started)}
-            />
+            <StartedIcon color="primary" className={classes.icon} />
             <Typography variant="headline">Started</Typography>
           </React.Fragment>
         )}
         {isStarted === false && (
           <React.Fragment>
-            <CancelIcon className={classNames(classes.icon, classes.stopped)} />
-            <Typography variant="headline">Stopped</Typography>
+            <StoppedIcon color="error" className={classes.icon} />
+            <Typography variant="headline" color="error">
+              Stopped
+            </Typography>
           </React.Fragment>
         )}
         {isStarted === undefined && (
           <React.Fragment>
-            <HelpIcon className={classNames(classes.icon, classes.unknown)} />
-            <Typography variant="headline">Unknown</Typography>
+            <UnknownIcon color="disabled" className={classes.icon} />
+            <Typography variant="headline" className={classes.disabled}>
+              Unknown
+            </Typography>
           </React.Fragment>
         )}
       </CardContent>

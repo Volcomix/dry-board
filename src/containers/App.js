@@ -11,7 +11,7 @@ import Collapse from '@material-ui/core/Collapse'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import WebIcon from '@material-ui/icons/Web'
+import BrowserIcon from '@material-ui/icons/Web'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import { toggleDrawer } from '../actions/layout'
@@ -112,7 +112,7 @@ const styles = theme => ({
 const routes = [
   {
     path: '/browser',
-    icon: WebIcon,
+    icon: BrowserIcon,
     title: 'Backend browser',
     component: Browser,
   },

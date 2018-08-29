@@ -10,28 +10,26 @@ import Button from '@material-ui/core/Button'
 
 import { startEToro } from '../actions/eToro'
 
+const steps = {
+  stopped: -1,
+  login: 0,
+  backdrop: 1,
+  demoMode: 2,
+  started: 3,
+}
+
 const EToro = ({ isConnected, isBrowserStarted, status, onStartEToro }) => (
   <Card>
     <CardContent>
-      <Stepper
-        activeStep={
-          {
-            stopped: -1,
-            login: 0,
-            backdrop: 1,
-            demoMode: 2,
-            started: 3,
-          }[status]
-        }
-      >
+      <Stepper activeStep={steps[status]} orientation="vertical">
         <Step>
-          <StepLabel>Waiting for login</StepLabel>
+          <StepLabel>Login</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Closing backdrop</StepLabel>
+          <StepLabel>Backdrop</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Setting demo mode</StepLabel>
+          <StepLabel>Demo mode</StepLabel>
         </Step>
       </Stepper>
     </CardContent>

@@ -10,7 +10,7 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 
-import { startEToro } from '../actions/eToro'
+import { startEToro, stopEToro } from '../actions/eToro'
 
 const steps = {
   stopped: -1,
@@ -26,6 +26,7 @@ const EToro = ({
   isBrowserStarted,
   status,
   onStartEToro,
+  onStopEToro,
 }) => (
   <Card>
     <CardContent>
@@ -58,6 +59,7 @@ const EToro = ({
         size="small"
         color="primary"
         disabled={!isConnected || !isBrowserStarted || status === 'stopped'}
+        onClick={onStopEToro}
       >
         Stop
       </Button>
@@ -73,6 +75,7 @@ const mapStateToProps = ({ dryMoose, browser, eToro }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onStartEToro: () => dispatch(startEToro()),
+  onStopEToro: () => dispatch(stopEToro()),
 })
 
 export default compose(

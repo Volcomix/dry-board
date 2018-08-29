@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 
-import { START_ETORO, receiveEToroStatus } from '../actions/eToro'
+import { START_ETORO, STOP_ETORO, receiveEToroStatus } from '../actions/eToro'
 
 export default store => {
   const socket = io('/eToro')
@@ -10,6 +10,9 @@ export default store => {
     switch (action.type) {
       case START_ETORO:
         socket.emit('start')
+        break
+      case STOP_ETORO:
+        socket.emit('stop')
         break
       default: // Unhandled action
     }

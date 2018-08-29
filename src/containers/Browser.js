@@ -12,7 +12,7 @@ import StartedIcon from '@material-ui/icons/CheckCircle'
 import StoppedIcon from '@material-ui/icons/Warning'
 import UnknownIcon from '@material-ui/icons/Help'
 
-import { startBrowser } from '../actions/browser'
+import { startBrowser, stopBrowser } from '../actions/browser'
 
 const styles = theme => ({
   container: {
@@ -36,7 +36,13 @@ const styles = theme => ({
   },
 })
 
-const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => (
+const Browser = ({
+  classes,
+  isConnected,
+  isStarted,
+  onStartBrowser,
+  onStopBrowser,
+}) => (
   <div className={classes.container}>
     <Card className={classes.card}>
       <CardHeader subheader="Backend browser status" />
@@ -78,6 +84,7 @@ const Browser = ({ classes, isConnected, isStarted, onStartBrowser }) => (
           size="small"
           color="primary"
           disabled={!isConnected || !isStarted}
+          onClick={onStopBrowser}
         >
           Stop
         </Button>
@@ -93,6 +100,7 @@ const mapStateToProps = ({ dryMoose, browser }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onStartBrowser: () => dispatch(startBrowser()),
+  onStopBrowser: () => dispatch(stopBrowser()),
 })
 
 export default compose(

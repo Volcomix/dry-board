@@ -6,13 +6,17 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import StartedIcon from '@material-ui/icons/CheckCircle'
 import StoppedIcon from '@material-ui/icons/Warning'
 import UnknownIcon from '@material-ui/icons/Help'
 
+import { Status } from '../reducers/browser'
 import { startBrowser, stopBrowser } from '../actions/browser'
+
+const iconSize = 32
 
 const styles = theme => ({
   container: {
@@ -25,10 +29,11 @@ const styles = theme => ({
   },
   content: {
     display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   icon: {
-    fontSize: 32,
+    fontSize: iconSize,
     marginRight: theme.spacing.unit,
   },
   disabled: {
@@ -36,10 +41,26 @@ const styles = theme => ({
   },
 })
 
+const shouldStart = status => {
+  return status === undefined || status === Status.Stopped
+}
+
+const canStart = (status, isConnected) => {
+  return isConnected && (status === Status.Stopped || status === Status.Started)
+}
+
+const canStop = (status, isConnected) => {
+  return isConnected && status === Status.Started
+}
+
+const isLoading = status => {
+  return status === Status.Stopping || status === Status.Starting
+}
+
 const Browser = ({
   classes,
   isConnected,
-  isStarted,
+  status,
   onStartBrowser,
   onStopBrowser,
 }) => (
@@ -47,21 +68,7 @@ const Browser = ({
     <Card className={classes.card}>
       <CardHeader subheader="Backend browser status" />
       <CardContent className={classes.content}>
-        {isStarted === true && (
-          <React.Fragment>
-            <StartedIcon color="primary" className={classes.icon} />
-            <Typography variant="headline">Started</Typography>
-          </React.Fragment>
-        )}
-        {isStarted === false && (
-          <React.Fragment>
-            <StoppedIcon color="error" className={classes.icon} />
-            <Typography variant="headline" color="error">
-              Stopped
-            </Typography>
-          </React.Fragment>
-        )}
-        {isStarted === undefined && (
+        {status === undefined && (
           <React.Fragment>
             <UnknownIcon color="disabled" className={classes.icon} />
             <Typography variant="headline" className={classes.disabled}>
@@ -69,21 +76,36 @@ const Browser = ({
             </Typography>
           </React.Fragment>
         )}
+        {status === Status.Stopped && (
+          <React.Fragment>
+            <StoppedIcon color="error" className={classes.icon} />
+            <Typography variant="headline" color="error">
+              Stopped
+            </Typography>
+          </React.Fragment>
+        )}
+        {status === Status.Started && (
+          <React.Fragment>
+            <StartedIcon color="primary" className={classes.icon} />
+            <Typography variant="headline">Started</Typography>
+          </React.Fragment>
+        )}
+        {isLoading(status) && <CircularProgress size={iconSize} />}
       </CardContent>
       <CardActions>
         <Button
-          variant={isStarted ? 'text' : 'contained'}
+          variant={shouldStart(status) ? 'contained' : 'text'}
           size="small"
           color="primary"
-          disabled={!isConnected}
+          disabled={!canStart(status, isConnected)}
           onClick={onStartBrowser}
         >
-          {isStarted ? 'Restart' : 'Start'}
+          {shouldStart(status) ? 'Start' : 'Restart'}
         </Button>
         <Button
           size="small"
           color="primary"
-          disabled={!isConnected || !isStarted}
+          disabled={!canStop(status, isConnected)}
           onClick={onStopBrowser}
         >
           Stop
@@ -95,7 +117,7 @@ const Browser = ({
 
 const mapStateToProps = ({ dryMoose, browser }) => ({
   isConnected: dryMoose.isConnected,
-  isStarted: browser.isStarted,
+  status: browser.status,
 })
 
 const mapDispatchToProps = dispatch => ({

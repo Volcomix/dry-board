@@ -1,13 +1,20 @@
 import { RECEIVE_BROWSER_STATUS } from '../actions/browser'
 
+export const Status = {
+  Stopping: 'Stopping',
+  Stopped: 'Stopped',
+  Starting: 'Starting',
+  Started: 'Started',
+}
+
 const initialState = {
-  isStarted: undefined,
+  status: undefined,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BROWSER_STATUS:
-      return { ...state, isStarted: action.isStarted }
+      return { ...state, status: action.status }
     default:
       return state
   }

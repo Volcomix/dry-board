@@ -6,10 +6,14 @@ import {
   receiveBrowserStatus,
 } from '../actions/browser'
 
+const Events = {
+  Status: 'Status',
+}
+
 export default store => {
   const socket = io('/browser')
-  socket.on('status', isStarted =>
-    store.dispatch(receiveBrowserStatus(isStarted)),
+  socket.on(Events.Status, status =>
+    store.dispatch(receiveBrowserStatus(status)),
   )
 
   return next => action => {

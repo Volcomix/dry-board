@@ -10,7 +10,7 @@ export const stopBrowser = () => ({
   type: STOP_BROWSER,
 })
 
-export const receiveBrowserStatus = isStarted => ({
+export const receiveBrowserStatus = status => ({
   type: RECEIVE_BROWSER_STATUS,
-  isStarted,
+  status,
 })

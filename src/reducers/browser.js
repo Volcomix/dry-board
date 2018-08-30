@@ -1,4 +1,4 @@
-import { RECEIVE_BROWSER_STATUS } from '../actions/browser'
+import { START_BROWSER, RECEIVE_BROWSER_STATUS } from '../actions/browser'
 
 export const Status = {
   Stopping: 'Stopping',
@@ -13,8 +13,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case START_BROWSER:
+      return { ...state, status: Status.Starting }
     case RECEIVE_BROWSER_STATUS:
-      return { ...state, status: action.status }
+      // When restarting ignore some statuses
+      if (
+        state.status === Status.Starting &&
+        action.status !== Status.Started
+      ) {
+        return state
+      } else {
+        return { ...state, status: action.status }
+      }
     default:
       return state
   }

@@ -10,29 +10,51 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 
+import { Status as BrowserStatus } from '../reducers/browser'
+import { Status as EToroStatus } from '../reducers/eToro'
 import { startEToro, stopEToro } from '../actions/eToro'
 
 const steps = {
-  stopped: -1,
-  open: 0,
-  login: 1,
-  backdrop: 2,
-  demoMode: 3,
-  started: 4,
+  [EToroStatus.Stopped]: -1,
+  [EToroStatus.Open]: 0,
+  [EToroStatus.Login]: 1,
+  [EToroStatus.Backdrop]: 2,
+  [EToroStatus.DemoMode]: 3,
+  [EToroStatus.Started]: 4,
+}
+
+const shouldStart = eToroStatus => {
+  return eToroStatus === EToroStatus.Stopped
+}
+
+const canStart = (eToroStatus, browserStatus, isConnected) => {
+  return (
+    isConnected &&
+    browserStatus === BrowserStatus.Started &&
+    (eToroStatus === EToroStatus.Stopped || eToroStatus === EToroStatus.Started)
+  )
+}
+
+const canStop = (eToroStatus, browserStatus, isConnected) => {
+  return (
+    isConnected &&
+    browserStatus === BrowserStatus.Started &&
+    eToroStatus === EToroStatus.Started
+  )
 }
 
 const EToro = ({
   width,
   isConnected,
-  isBrowserStarted,
-  status,
+  browserStatus,
+  eToroStatus,
   onStartEToro,
   onStopEToro,
 }) => (
   <Card>
     <CardContent>
       <Stepper
-        activeStep={steps[status]}
+        activeStep={steps[eToroStatus]}
         orientation={isWidthDown('xs', width) ? 'vertical' : 'horizontal'}
       >
         <Step>
@@ -51,18 +73,18 @@ const EToro = ({
     </CardContent>
     <CardActions>
       <Button
-        variant={status === 'stopped' ? 'contained' : 'text'}
+        variant={shouldStart(eToroStatus) ? 'contained' : 'text'}
         size="small"
         color="primary"
-        disabled={!isConnected || !isBrowserStarted}
+        disabled={!canStart(eToroStatus, browserStatus, isConnected)}
         onClick={onStartEToro}
       >
-        {status === 'stopped' ? 'Start' : 'Restart'}
+        {shouldStart(eToroStatus) ? 'Start' : 'Restart'}
       </Button>
       <Button
         size="small"
         color="primary"
-        disabled={!isConnected || !isBrowserStarted || status === 'stopped'}
+        disabled={!canStop(eToroStatus, browserStatus, isConnected)}
         onClick={onStopEToro}
       >
         Stop
@@ -73,8 +95,8 @@ const EToro = ({
 
 const mapStateToProps = ({ dryMoose, browser, eToro }) => ({
   isConnected: dryMoose.isConnected,
-  isBrowserStarted: browser.isStarted,
-  status: eToro.status,
+  browserStatus: browser.status,
+  eToroStatus: eToro.status,
 })
 
 const mapDispatchToProps = dispatch => ({

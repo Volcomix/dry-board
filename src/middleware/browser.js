@@ -7,6 +7,8 @@ import {
 } from '../actions/browser'
 
 const Events = {
+  Start: 'Start',
+  Stop: 'Stop',
   Status: 'Status',
 }
 
@@ -19,10 +21,10 @@ export default store => {
   return next => action => {
     switch (action.type) {
       case START_BROWSER:
-        socket.emit('start')
+        socket.emit(Events.Start)
         break
       case STOP_BROWSER:
-        socket.emit('stop')
+        socket.emit(Events.Stop)
         break
       default: // Unhandled action
     }

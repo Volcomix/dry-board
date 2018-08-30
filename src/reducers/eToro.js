@@ -1,7 +1,16 @@
 import { RECEIVE_ETORO_STATUS } from '../actions/eToro'
 
+export const Status = {
+  Stopped: 'Stopped',
+  Open: 'Open',
+  Login: 'Login',
+  Backdrop: 'Backdrop',
+  DemoMode: 'DemoMode',
+  Started: 'Started',
+}
+
 const initialState = {
-  status: 'stopped',
+  status: Status.Stopped,
 }
 
 export default (state = initialState, action) => {

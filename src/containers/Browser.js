@@ -61,13 +61,7 @@ const isLoading = status => {
   return status === Status.Stopping || status === Status.Starting
 }
 
-const Browser = ({
-  classes,
-  isConnected,
-  status,
-  onStartBrowser,
-  onStopBrowser,
-}) => (
+const Browser = ({ classes, isConnected, status, onStart, onStop }) => (
   <div className={classes.container}>
     <Card className={classes.card}>
       <CardHeader subheader="Backend browser status" />
@@ -111,7 +105,7 @@ const Browser = ({
           size="small"
           color="primary"
           disabled={!canStart(status, isConnected)}
-          onClick={onStartBrowser}
+          onClick={onStart}
         >
           {shouldStart(status) ? 'Start' : 'Restart'}
         </Button>
@@ -119,7 +113,7 @@ const Browser = ({
           size="small"
           color="primary"
           disabled={!canStop(status, isConnected)}
-          onClick={onStopBrowser}
+          onClick={onStop}
         >
           Stop
         </Button>
@@ -134,8 +128,8 @@ const mapStateToProps = ({ dryMoose, browser }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onStartBrowser: () => dispatch(startBrowser()),
-  onStopBrowser: () => dispatch(stopBrowser()),
+  onStart: () => dispatch(startBrowser()),
+  onStop: () => dispatch(stopBrowser()),
 })
 
 export default compose(

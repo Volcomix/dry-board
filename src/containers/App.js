@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import BrowserIcon from '@material-ui/icons/Web'
+import MarketIcon from '@material-ui/icons/FindInPage'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import { toggleDrawer } from '../actions/layout'
@@ -19,6 +20,7 @@ import DrawerContent from '../components/DrawerContent'
 import Disconnected from '../components/Disconnected'
 import Browser from './Browser'
 import EToro from './EToro'
+import Market from './Market'
 import EToroIcon from '../icons/EToro'
 
 const drawerWidth = 240
@@ -121,6 +123,12 @@ const routes = [
     icon: EToroIcon,
     title: 'eToro',
     component: EToro,
+  },
+  {
+    path: '/market',
+    icon: MarketIcon,
+    title: 'Market discovery',
+    component: Market,
   },
 ]
 

@@ -48,8 +48,8 @@ const EToro = ({
   isConnected,
   browserStatus,
   eToroStatus,
-  onStartEToro,
-  onStopEToro,
+  onStart,
+  onStop,
 }) => (
   <Card>
     <CardContent>
@@ -77,7 +77,7 @@ const EToro = ({
         size="small"
         color="primary"
         disabled={!canStart(eToroStatus, browserStatus, isConnected)}
-        onClick={onStartEToro}
+        onClick={onStart}
       >
         {shouldStart(eToroStatus) ? 'Start' : 'Restart'}
       </Button>
@@ -85,7 +85,7 @@ const EToro = ({
         size="small"
         color="primary"
         disabled={!canStop(eToroStatus, browserStatus, isConnected)}
-        onClick={onStopEToro}
+        onClick={onStop}
       >
         Stop
       </Button>
@@ -100,8 +100,8 @@ const mapStateToProps = ({ dryMoose, browser, eToro }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onStartEToro: () => dispatch(startEToro()),
-  onStopEToro: () => dispatch(stopEToro()),
+  onStart: () => dispatch(startEToro()),
+  onStop: () => dispatch(stopEToro()),
 })
 
 export default compose(

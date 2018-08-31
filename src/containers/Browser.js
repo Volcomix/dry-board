@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import StartedIcon from '@material-ui/icons/CheckCircle'
 import StoppedIcon from '@material-ui/icons/Warning'
 import UnknownIcon from '@material-ui/icons/Help'
+import classNames from 'classnames'
 
 import { Status } from '../reducers/browser'
 import { startBrowser, stopBrowser } from '../actions/browser'
@@ -35,6 +36,9 @@ const styles = theme => ({
   icon: {
     fontSize: iconSize,
     marginRight: theme.spacing.unit,
+  },
+  label: {
+    flexGrow: 1,
   },
   disabled: {
     color: theme.palette.text.disabled,
@@ -71,7 +75,10 @@ const Browser = ({
         {status === undefined && (
           <React.Fragment>
             <UnknownIcon color="disabled" className={classes.icon} />
-            <Typography variant="headline" className={classes.disabled}>
+            <Typography
+              variant="headline"
+              className={classNames(classes.label, classes.disabled)}
+            >
               Unknown
             </Typography>
           </React.Fragment>
@@ -79,7 +86,11 @@ const Browser = ({
         {status === Status.Stopped && (
           <React.Fragment>
             <StoppedIcon color="error" className={classes.icon} />
-            <Typography variant="headline" color="error">
+            <Typography
+              variant="headline"
+              color="error"
+              className={classes.label}
+            >
               Stopped
             </Typography>
           </React.Fragment>
@@ -87,7 +98,9 @@ const Browser = ({
         {status === Status.Started && (
           <React.Fragment>
             <StartedIcon color="primary" className={classes.icon} />
-            <Typography variant="headline">Started</Typography>
+            <Typography variant="headline" className={classes.label}>
+              Started
+            </Typography>
           </React.Fragment>
         )}
         {isLoading(status) && <CircularProgress size={iconSize} />}

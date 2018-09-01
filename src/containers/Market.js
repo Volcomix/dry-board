@@ -5,7 +5,13 @@ import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import StoppedIcon from '@material-ui/icons/Warning'
+import DiscoveredIcon from '@material-ui/icons/CheckCircle'
+import CancelledIcon from '@material-ui/icons/Cancel'
+import classNames from 'classnames'
 
 import { Status as EToroStatus } from '../reducers/eToro'
 import { Status as MarketStatus } from '../reducers/market'
@@ -23,6 +29,7 @@ const styles = theme => ({
     },
   },
   content: {
+    marginTop: theme.spacing.unit,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -57,6 +64,13 @@ const canCancel = (marketStatus, eToroStatus, isConnected) => {
   )
 }
 
+const isLoading = marketStatus => {
+  return (
+    marketStatus === MarketStatus.Discovering ||
+    marketStatus === MarketStatus.Cancelling
+  )
+}
+
 const Market = ({
   classes,
   isConnected,
@@ -67,7 +81,40 @@ const Market = ({
 }) => (
   <div className={classes.container}>
     <Card className={classes.card}>
-      <CardContent>{marketStatus}</CardContent>
+      <CardContent className={classes.content}>
+        {marketStatus === MarketStatus.Stopped && (
+          <React.Fragment>
+            <StoppedIcon color="disabled" className={classes.icon} />
+            <Typography
+              variant="headline"
+              className={classNames(classes.label, classes.disabled)}
+            >
+              Stopped
+            </Typography>
+          </React.Fragment>
+        )}
+        {marketStatus === MarketStatus.Cancelled && (
+          <React.Fragment>
+            <CancelledIcon color="error" className={classes.icon} />
+            <Typography
+              variant="headline"
+              color="error"
+              className={classes.label}
+            >
+              Cancelled
+            </Typography>
+          </React.Fragment>
+        )}
+        {marketStatus === MarketStatus.Discovered && (
+          <React.Fragment>
+            <DiscoveredIcon color="primary" className={classes.icon} />
+            <Typography variant="headline" className={classes.label}>
+              Discovered
+            </Typography>
+          </React.Fragment>
+        )}
+        {isLoading(marketStatus) && <CircularProgress size={iconSize} />}
+      </CardContent>
       <CardActions>
         <Button
           variant="contained"

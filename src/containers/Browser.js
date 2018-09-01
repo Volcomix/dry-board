@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -29,6 +28,7 @@ const styles = theme => ({
     },
   },
   content: {
+    marginTop: theme.spacing.unit,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -64,7 +64,6 @@ const isLoading = status => {
 const Browser = ({ classes, isConnected, status, onStart, onStop }) => (
   <div className={classes.container}>
     <Card className={classes.card}>
-      <CardHeader subheader="Backend browser status" />
       <CardContent className={classes.content}>
         {status === undefined && (
           <React.Fragment>

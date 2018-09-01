@@ -1,6 +1,6 @@
 import { RECEIVE_MARKET_STATUS } from '../actions/market'
 
-const Status = {
+export const Status = {
   Stopped: 'Stopped',
   Discovering: 'Discovering',
   Discovered: 'Discovered',

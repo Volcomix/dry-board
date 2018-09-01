@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 
+import { Status as EToroStatus } from '../reducers/eToro'
+import { Status as MarketStatus } from '../reducers/market'
 import { discoverMarket, cancelMarketDiscovery } from '../actions/market'
 
 const iconSize = 32
@@ -37,6 +39,24 @@ const styles = theme => ({
   },
 })
 
+const canDiscover = (marketStatus, eToroStatus, isConnected) => {
+  return (
+    isConnected &&
+    eToroStatus === EToroStatus.Started &&
+    (marketStatus === MarketStatus.Stopped ||
+      marketStatus === MarketStatus.Discovered ||
+      marketStatus === MarketStatus.Cancelled)
+  )
+}
+
+const canCancel = (marketStatus, eToroStatus, isConnected) => {
+  return (
+    isConnected &&
+    eToroStatus === EToroStatus.Started &&
+    marketStatus === MarketStatus.Discovering
+  )
+}
+
 const Market = ({
   classes,
   isConnected,
@@ -53,11 +73,17 @@ const Market = ({
           variant="contained"
           size="small"
           color="primary"
+          disabled={!canDiscover(marketStatus, eToroStatus, isConnected)}
           onClick={onDiscover}
         >
           Discover
         </Button>
-        <Button size="small" color="primary" onClick={onCancel}>
+        <Button
+          size="small"
+          color="primary"
+          disabled={!canCancel(marketStatus, eToroStatus, isConnected)}
+          onClick={onCancel}
+        >
           Cancel
         </Button>
       </CardActions>

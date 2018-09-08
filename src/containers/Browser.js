@@ -63,8 +63,8 @@ const Browser = ({
   onStop,
   onChangeConfig,
 }) => (
-  <Grid>
-    <Grid item sm={4} lg={3}>
+  <Grid container>
+    <Grid item xs={12} sm={4} lg={3}>
       <Card>
         {status === undefined && (
           <CardHeader avatar={<Avatar>?</Avatar>} title="Unknown" />

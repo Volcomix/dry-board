@@ -18,9 +18,9 @@ import StartedIcon from '@material-ui/icons/Check'
 
 import { Status } from '../reducers/browser'
 import {
-  sendBrowserConfig,
   startBrowser,
   stopBrowser,
+  sendBrowserConfig,
 } from '../actions/browser'
 
 const styles = theme => ({
@@ -59,9 +59,9 @@ const Browser = ({
   config,
   isConnected,
   status,
-  onChangeConfig,
   onStart,
   onStop,
+  onChangeConfig,
 }) => (
   <Grid>
     <Grid item sm={4} lg={3}>
@@ -147,9 +147,9 @@ const mapStateToProps = ({ dryMoose, browser }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onChangeConfig: (key, value) => dispatch(sendBrowserConfig(key, value)),
   onStart: () => dispatch(startBrowser()),
   onStop: () => dispatch(stopBrowser()),
+  onChangeConfig: (key, value) => dispatch(sendBrowserConfig(key, value)),
 })
 
 export default compose(

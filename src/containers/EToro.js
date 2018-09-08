@@ -8,11 +8,15 @@ import CardActions from '@material-ui/core/CardActions'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 import Button from '@material-ui/core/Button'
+import Collapse from '@material-ui/core/Collapse'
 
 import { Status as BrowserStatus } from '../reducers/browser'
 import { Status as EToroStatus } from '../reducers/eToro'
-import { startEToro, stopEToro } from '../actions/eToro'
+import { startEToro, stopEToro, sendEToroConfig } from '../actions/eToro'
 
 const steps = {
   [EToroStatus.Stopped]: -1,
@@ -45,11 +49,13 @@ const canStop = (eToroStatus, browserStatus, isConnected) => {
 
 const EToro = ({
   width,
+  config,
   isConnected,
   browserStatus,
   eToroStatus,
   onStart,
   onStop,
+  onChangeConfig,
 }) => (
   <Card>
     <CardContent>
@@ -71,6 +77,26 @@ const EToro = ({
         </Step>
       </Stepper>
     </CardContent>
+    <Collapse in={!!config}>
+      {config && (
+        <CardContent>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={!config.demoMode}
+                  disabled={!isConnected}
+                  onChange={event =>
+                    onChangeConfig('demoMode', !event.target.checked)
+                  }
+                />
+              }
+              label="Real trades"
+            />
+          </FormGroup>
+        </CardContent>
+      )}
+    </Collapse>
     <CardActions>
       <Button
         variant={shouldStart(eToroStatus) ? 'contained' : 'text'}
@@ -94,6 +120,7 @@ const EToro = ({
 )
 
 const mapStateToProps = ({ dryMoose, browser, eToro }) => ({
+  config: eToro.config,
   isConnected: dryMoose.isConnected,
   browserStatus: browser.status,
   eToroStatus: eToro.status,
@@ -102,6 +129,7 @@ const mapStateToProps = ({ dryMoose, browser, eToro }) => ({
 const mapDispatchToProps = dispatch => ({
   onStart: () => dispatch(startEToro()),
   onStop: () => dispatch(stopEToro()),
+  onChangeConfig: (key, value) => dispatch(sendEToroConfig(key, value)),
 })
 
 export default compose(

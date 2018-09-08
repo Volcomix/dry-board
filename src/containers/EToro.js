@@ -76,10 +76,8 @@ const EToro = ({
           <StepLabel>Demo</StepLabel>
         </Step>
       </Stepper>
-    </CardContent>
-    <Collapse in={!!config}>
-      {config && (
-        <CardContent>
+      <Collapse in={!!config}>
+        {config && (
           <FormGroup>
             <FormControlLabel
               control={
@@ -94,9 +92,9 @@ const EToro = ({
               label="Real trades"
             />
           </FormGroup>
-        </CardContent>
-      )}
-    </Collapse>
+        )}
+      </Collapse>
+    </CardContent>
     <CardActions>
       <Button
         variant={shouldStart(eToroStatus) ? 'contained' : 'text'}

@@ -2,46 +2,39 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import StartedIcon from '@material-ui/icons/CheckCircle'
-import StoppedIcon from '@material-ui/icons/Warning'
-import UnknownIcon from '@material-ui/icons/Help'
-import classNames from 'classnames'
+import Collapse from '@material-ui/core/Collapse'
+import StartedIcon from '@material-ui/icons/Check'
 
 import { Status } from '../reducers/browser'
-import { startBrowser, stopBrowser } from '../actions/browser'
-
-const iconSize = 32
+import {
+  sendBrowserConfig,
+  startBrowser,
+  stopBrowser,
+} from '../actions/browser'
 
 const styles = theme => ({
-  container: {
-    display: 'flex',
+  stopped: {
+    backgroundColor: theme.palette.error.main,
   },
-  card: {
-    [theme.breakpoints.down('xs')]: {
-      flexGrow: 1,
-    },
+  started: {
+    backgroundColor: theme.palette.primary.main,
   },
-  content: {
-    marginTop: theme.spacing.unit,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  loading: {
+    backgroundColor: 'inherit',
   },
-  icon: {
-    fontSize: iconSize,
-    marginRight: theme.spacing.unit,
-  },
-  label: {
-    flexGrow: 1,
-  },
-  disabled: {
-    color: theme.palette.text.disabled,
+  startButton: {
+    width: 72,
   },
 })
 
@@ -61,72 +54,100 @@ const isLoading = status => {
   return status === Status.Stopping || status === Status.Starting
 }
 
-const Browser = ({ classes, isConnected, status, onStart, onStop }) => (
-  <div className={classes.container}>
-    <Card className={classes.card}>
-      <CardContent className={classes.content}>
+const Browser = ({
+  classes,
+  config,
+  isConnected,
+  status,
+  onChangeConfig,
+  onStart,
+  onStop,
+}) => (
+  <Grid>
+    <Grid item sm={4} lg={3}>
+      <Card>
         {status === undefined && (
-          <React.Fragment>
-            <UnknownIcon color="disabled" className={classes.icon} />
-            <Typography
-              variant="headline"
-              className={classNames(classes.label, classes.disabled)}
-            >
-              Unknown
-            </Typography>
-          </React.Fragment>
+          <CardHeader avatar={<Avatar>?</Avatar>} title="Unknown" />
         )}
         {status === Status.Stopped && (
-          <React.Fragment>
-            <StoppedIcon color="error" className={classes.icon} />
-            <Typography
-              variant="headline"
-              color="error"
-              className={classes.label}
-            >
-              Stopped
-            </Typography>
-          </React.Fragment>
+          <CardHeader
+            avatar={<Avatar className={classes.stopped}>!</Avatar>}
+            title="Stopped"
+          />
         )}
         {status === Status.Started && (
-          <React.Fragment>
-            <StartedIcon color="primary" className={classes.icon} />
-            <Typography variant="headline" className={classes.label}>
-              Started
-            </Typography>
-          </React.Fragment>
+          <CardHeader
+            avatar={
+              <Avatar className={classes.started}>
+                <StartedIcon />
+              </Avatar>
+            }
+            title="Started"
+          />
         )}
-        {isLoading(status) && <CircularProgress size={iconSize} />}
-      </CardContent>
-      <CardActions>
-        <Button
-          variant={shouldStart(status) ? 'contained' : 'text'}
-          size="small"
-          color="primary"
-          disabled={!canStart(status, isConnected)}
-          onClick={onStart}
-        >
-          {shouldStart(status) ? 'Start' : 'Restart'}
-        </Button>
-        <Button
-          size="small"
-          color="primary"
-          disabled={!canStop(status, isConnected)}
-          onClick={onStop}
-        >
-          Stop
-        </Button>
-      </CardActions>
-    </Card>
-  </div>
+        {isLoading(status) && (
+          <CardHeader
+            avatar={
+              <Avatar className={classes.loading}>
+                <CircularProgress />
+              </Avatar>
+            }
+          />
+        )}
+        <Collapse in={!!config}>
+          {config && (
+            <CardContent>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      color="primary"
+                      checked={config.headless}
+                      disabled={!isConnected}
+                      onChange={event =>
+                        onChangeConfig('headless', event.target.checked)
+                      }
+                    />
+                  }
+                  label="Headless"
+                />
+              </FormGroup>
+            </CardContent>
+          )}
+        </Collapse>
+        <CardActions>
+          <Button
+            variant={shouldStart(status) ? 'contained' : 'text'}
+            size="small"
+            color="primary"
+            className={classes.startButton}
+            disabled={!canStart(status, isConnected)}
+            onClick={onStart}
+          >
+            {shouldStart(status) ? 'Start' : 'Restart'}
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            disabled={!canStop(status, isConnected)}
+            onClick={onStop}
+          >
+            Stop
+          </Button>
+        </CardActions>
+      </Card>
+    </Grid>
+  </Grid>
 )
 
 const mapStateToProps = ({ dryMoose, browser }) => ({
+  config: browser.config,
   isConnected: dryMoose.isConnected,
   status: browser.status,
 })
 
 const mapDispatchToProps = dispatch => ({
+  onChangeConfig: (key, value) => dispatch(sendBrowserConfig(key, value)),
   onStart: () => dispatch(startBrowser()),
   onStop: () => dispatch(stopBrowser()),
 })

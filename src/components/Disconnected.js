@@ -5,12 +5,10 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
 import DisconnectedIcon from '@material-ui/icons/CloudOff'
 
-const styles = theme => ({
+const styles = {
   card: {
     display: 'flex',
-    [theme.breakpoints.up('sm')]: {
-      justifyContent: 'center',
-    },
+    justifyContent: 'center',
   },
   header: {
     alignItems: 'start',
@@ -20,7 +18,7 @@ const styles = theme => ({
     height: 'unset',
     fontSize: 32,
   },
-})
+}
 
 const Disconnected = ({ classes }) => (
   <Card elevation={0} className={classes.card}>

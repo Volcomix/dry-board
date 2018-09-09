@@ -7,15 +7,24 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
+import Collapse from '@material-ui/core/Collapse'
 import CancelledIcon from '@material-ui/icons/Close'
 import DiscoveredIcon from '@material-ui/icons/Check'
 
 import { Status as EToroStatus } from '../reducers/eToro'
 import { Status as MarketStatus } from '../reducers/market'
-import { discoverMarket, cancelMarketDiscovery } from '../actions/market'
+import {
+  discoverMarket,
+  cancelMarketDiscovery,
+  sendMarketConfig,
+} from '../actions/market'
 
 const styles = theme => ({
   cancelled: {
@@ -26,6 +35,9 @@ const styles = theme => ({
   },
   loading: {
     backgroundColor: 'inherit',
+  },
+  formControl: {
+    minWidth: 140,
   },
 })
 
@@ -56,11 +68,13 @@ const isLoading = marketStatus => {
 
 const Market = ({
   classes,
+  config,
   isConnected,
   eToroStatus,
   marketStatus,
   onDiscover,
   onCancel,
+  onChangeConfig,
 }) => (
   <Grid container>
     <Grid item xs={12} sm={5} lg={3}>
@@ -97,6 +111,24 @@ const Market = ({
             }
           />
         )}
+        <Collapse in={!!config}>
+          {config && (
+            <CardContent>
+              <FormControl className={classes.formControl}>
+                <InputLabel>Discovery mode</InputLabel>
+                <Select
+                  value={config.discoveryMode}
+                  onChange={event =>
+                    onChangeConfig('discoveryMode', event.target.value)
+                  }
+                >
+                  <MenuItem value="js">Javascript</MenuItem>
+                  <MenuItem value="ui">User Interface</MenuItem>
+                </Select>
+              </FormControl>
+            </CardContent>
+          )}
+        </Collapse>
         <CardActions>
           <Button
             variant="contained"
@@ -122,6 +154,7 @@ const Market = ({
 )
 
 const mapStateToProps = ({ dryMoose, eToro, market }) => ({
+  config: market.config,
   isConnected: dryMoose.isConnected,
   eToroStatus: eToro.status,
   marketStatus: market.status,
@@ -130,6 +163,7 @@ const mapStateToProps = ({ dryMoose, eToro, market }) => ({
 const mapDispatchToProps = dispatch => ({
   onDiscover: () => dispatch(discoverMarket()),
   onCancel: () => dispatch(cancelMarketDiscovery()),
+  onChangeConfig: (key, value) => dispatch(sendMarketConfig(key, value)),
 })
 
 export default compose(

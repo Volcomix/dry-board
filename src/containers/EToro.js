@@ -8,7 +8,6 @@ import CardActions from '@material-ui/core/CardActions'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
-import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import Button from '@material-ui/core/Button'
@@ -78,20 +77,18 @@ const EToro = ({
       </Stepper>
       <Collapse in={!!config}>
         {config && (
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={!config.demoMode}
-                  disabled={!isConnected}
-                  onChange={event =>
-                    onChangeConfig('demoMode', !event.target.checked)
-                  }
-                />
-              }
-              label="Real trades"
-            />
-          </FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={!config.demoMode}
+                disabled={!isConnected}
+                onChange={event =>
+                  onChangeConfig('demoMode', !event.target.checked)
+                }
+              />
+            }
+            label="Real trades"
+          />
         )}
       </Collapse>
     </CardContent>

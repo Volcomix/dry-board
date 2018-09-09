@@ -7,7 +7,6 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
-import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -97,21 +96,19 @@ const Browser = ({
         <Collapse in={!!config}>
           {config && (
             <CardContent>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      color="primary"
-                      checked={config.headless}
-                      disabled={!isConnected}
-                      onChange={event =>
-                        onChangeConfig('headless', event.target.checked)
-                      }
-                    />
-                  }
-                  label="Headless"
-                />
-              </FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    color="primary"
+                    checked={config.headless}
+                    disabled={!isConnected}
+                    onChange={event =>
+                      onChangeConfig('headless', event.target.checked)
+                    }
+                  />
+                }
+                label="Headless"
+              />
             </CardContent>
           )}
         </Collapse>

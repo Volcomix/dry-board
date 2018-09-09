@@ -21,8 +21,8 @@ export default store => {
   socket.on(Events.Config, config =>
     store.dispatch(receiveMarketConfig(config)),
   )
-  socket.on(Events.Status, status =>
-    store.dispatch(receiveMarketStatus(status)),
+  socket.on(Events.Status, (status, instruments) =>
+    store.dispatch(receiveMarketStatus(status, instruments)),
   )
 
   return next => action => {

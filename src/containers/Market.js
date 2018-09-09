@@ -4,15 +4,12 @@ import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
 import CancelledIcon from '@material-ui/icons/Close'
@@ -25,21 +22,14 @@ import {
   cancelMarketDiscovery,
   sendMarketConfig,
 } from '../actions/market'
+import Status from '../components/Status'
+import StatusItem from '../components/StatusItem'
 
-const styles = theme => ({
-  cancelled: {
-    backgroundColor: theme.palette.error.main,
-  },
-  discovered: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  loading: {
-    backgroundColor: 'inherit',
-  },
+const styles = {
   formControl: {
     minWidth: 140,
   },
-})
+}
 
 const canDiscover = (marketStatus, eToroStatus, isConnected) => {
   return (
@@ -79,42 +69,33 @@ const Market = ({
   <Grid container>
     <Grid item xs={12} sm={5} lg={3}>
       <Card>
-        {marketStatus === MarketStatus.Stopped && (
-          <CardHeader avatar={<Avatar>!</Avatar>} title="Stopped" />
-        )}
-        {marketStatus === MarketStatus.Cancelled && (
-          <CardHeader
-            avatar={
-              <Avatar className={classes.cancelled}>
-                <CancelledIcon />
-              </Avatar>
-            }
+        <Status value={marketStatus} isLoading={isLoading(marketStatus)}>
+          <StatusItem
+            icon="!"
+            title="Stopped"
+            value={MarketStatus.Stopped}
+            color="disabled"
+          />
+          <StatusItem
+            icon={<CancelledIcon />}
             title="Cancelled"
+            value={MarketStatus.Cancelled}
+            color="error"
           />
-        )}
-        {marketStatus === MarketStatus.Discovered && (
-          <CardHeader
-            avatar={
-              <Avatar className={classes.discovered}>
-                <DiscoveredIcon />
-              </Avatar>
-            }
+          <StatusItem
+            icon={<DiscoveredIcon />}
             title="Discovered"
+            value={MarketStatus.Discovered}
+            color="primary"
           />
-        )}
-        {isLoading(marketStatus) && (
-          <CardHeader
-            avatar={
-              <Avatar className={classes.loading}>
-                <CircularProgress />
-              </Avatar>
-            }
-          />
-        )}
+        </Status>
         <Collapse in={!!config}>
           {config && (
             <CardContent>
-              <FormControl className={classes.formControl}>
+              <FormControl
+                className={classes.formControl}
+                disabled={!isConnected}
+              >
                 <InputLabel>Discovery mode</InputLabel>
                 <Select
                   value={config.discoveryMode}

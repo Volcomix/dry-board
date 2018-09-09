@@ -15,6 +15,7 @@ export const Status = {
 const initialState = {
   config: undefined,
   status: Status.Stopped,
+  instruments: undefined,
 }
 
 export default (state = initialState, action) => {
@@ -27,7 +28,11 @@ export default (state = initialState, action) => {
     case RECEIVE_MARKET_CONFIG:
       return { ...state, config: action.config }
     case RECEIVE_MARKET_STATUS:
-      return { ...state, status: action.status }
+      return {
+        ...state,
+        status: action.status,
+        instruments: action.instruments || state.instruments,
+      }
     default:
       return state
   }

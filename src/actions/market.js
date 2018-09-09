@@ -30,7 +30,8 @@ export const receiveMarketConfig = config => ({
   config,
 })
 
-export const receiveMarketStatus = status => ({
+export const receiveMarketStatus = (status, instruments) => ({
   type: RECEIVE_MARKET_STATUS,
   status,
+  instruments,
 })

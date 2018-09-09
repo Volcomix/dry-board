@@ -4,60 +4,53 @@ import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
 import StartedIcon from '@material-ui/icons/Check'
 
-import { Status } from '../reducers/browser'
+import { Status as BrowserStatus } from '../reducers/browser'
 import {
   startBrowser,
   stopBrowser,
   sendBrowserConfig,
 } from '../actions/browser'
+import Status from '../components/Status'
+import StatusItem from '../components/StatusItem'
 
-const styles = theme => ({
-  stopped: {
-    backgroundColor: theme.palette.error.main,
-  },
-  started: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  loading: {
-    backgroundColor: 'inherit',
-  },
+const styles = {
   startButton: {
     width: 72,
   },
-})
+}
 
 const shouldStart = status => {
-  return status === undefined || status === Status.Stopped
+  return status === undefined || status === BrowserStatus.Stopped
 }
 
 const canStart = (status, isConnected) => {
-  return isConnected && (status === Status.Stopped || status === Status.Started)
+  return (
+    isConnected &&
+    (status === BrowserStatus.Stopped || status === BrowserStatus.Started)
+  )
 }
 
 const canStop = (status, isConnected) => {
-  return isConnected && status === Status.Started
+  return isConnected && status === BrowserStatus.Started
 }
 
 const isLoading = status => {
-  return status === Status.Stopping || status === Status.Starting
+  return status === BrowserStatus.Stopping || status === BrowserStatus.Starting
 }
 
 const Browser = ({
   classes,
   config,
   isConnected,
-  status,
+  browserStatus,
   onStart,
   onStop,
   onChangeConfig,
@@ -65,34 +58,26 @@ const Browser = ({
   <Grid container>
     <Grid item xs={12} sm={4} lg={3}>
       <Card>
-        {status === undefined && (
-          <CardHeader avatar={<Avatar>?</Avatar>} title="Unknown" />
-        )}
-        {status === Status.Stopped && (
-          <CardHeader
-            avatar={<Avatar className={classes.stopped}>!</Avatar>}
+        <Status value={browserStatus} isLoading={isLoading(browserStatus)}>
+          <StatusItem
+            icon="?"
+            title="Unknown"
+            value={undefined}
+            color="disabled"
+          />
+          <StatusItem
+            icon="!"
             title="Stopped"
+            value={BrowserStatus.Stopped}
+            color="error"
           />
-        )}
-        {status === Status.Started && (
-          <CardHeader
-            avatar={
-              <Avatar className={classes.started}>
-                <StartedIcon />
-              </Avatar>
-            }
+          <StatusItem
+            icon={<StartedIcon />}
             title="Started"
+            value={BrowserStatus.Started}
+            color="primary"
           />
-        )}
-        {isLoading(status) && (
-          <CardHeader
-            avatar={
-              <Avatar className={classes.loading}>
-                <CircularProgress />
-              </Avatar>
-            }
-          />
-        )}
+        </Status>
         <Collapse in={!!config}>
           {config && (
             <CardContent>
@@ -114,19 +99,19 @@ const Browser = ({
         </Collapse>
         <CardActions>
           <Button
-            variant={shouldStart(status) ? 'contained' : 'text'}
+            variant={shouldStart(browserStatus) ? 'contained' : 'text'}
             size="small"
             color="primary"
             className={classes.startButton}
-            disabled={!canStart(status, isConnected)}
+            disabled={!canStart(browserStatus, isConnected)}
             onClick={onStart}
           >
-            {shouldStart(status) ? 'Start' : 'Restart'}
+            {shouldStart(browserStatus) ? 'Start' : 'Restart'}
           </Button>
           <Button
             size="small"
             color="primary"
-            disabled={!canStop(status, isConnected)}
+            disabled={!canStop(browserStatus, isConnected)}
             onClick={onStop}
           >
             Stop
@@ -140,7 +125,7 @@ const Browser = ({
 const mapStateToProps = ({ dryMoose, browser }) => ({
   config: browser.config,
   isConnected: dryMoose.isConnected,
-  status: browser.status,
+  browserStatus: browser.status,
 })
 
 const mapDispatchToProps = dispatch => ({

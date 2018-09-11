@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -10,8 +11,16 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import TablePagination from '@material-ui/core/TablePagination'
 import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 import Collapse from '@material-ui/core/Collapse'
+import Fade from '@material-ui/core/Fade'
 import CancelledIcon from '@material-ui/icons/Close'
 import DiscoveredIcon from '@material-ui/icons/Check'
 
@@ -21,15 +30,23 @@ import {
   discoverMarket,
   cancelMarketDiscovery,
   sendMarketConfig,
+  changeMarketRowsPerPage,
+  changeMarketPage,
 } from '../actions/market'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
 
-const styles = {
+const styles = theme => ({
   formControl: {
     minWidth: 140,
   },
-}
+  instrumentsPaper: {
+    overflow: 'hidden',
+  },
+  instruments: {
+    overflow: 'auto',
+  },
+})
 
 const canDiscover = (marketStatus, eToroStatus, isConnected) => {
   return (
@@ -58,15 +75,21 @@ const isLoading = marketStatus => {
 
 const Market = ({
   classes,
+  width,
   config,
   isConnected,
   eToroStatus,
   marketStatus,
+  instruments,
+  rowsPerPage,
+  page,
   onDiscover,
   onCancel,
   onChangeConfig,
+  onChangeRowsPerPage,
+  onChangePage,
 }) => (
-  <Grid container>
+  <Grid container spacing={16}>
     <Grid item xs={12} sm={5} lg={3}>
       <Card>
         <Status value={marketStatus} isLoading={isLoading(marketStatus)}>
@@ -131,6 +154,58 @@ const Market = ({
         </CardActions>
       </Card>
     </Grid>
+    <Fade in={instruments && instruments.length} mountOnEnter unmountOnExit>
+      {instruments &&
+        instruments.length && (
+          <Grid item xs={12}>
+            <Paper className={classes.instrumentsPaper}>
+              <div className={classes.instruments}>
+                <Table padding="dense">
+                  <TableHead>
+                    <TableRow>
+                      {Object.keys(instruments[0]).map(key => (
+                        <TableCell key={key}>{key}</TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {instruments
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
+                      .map((instrument, i) => (
+                        <TableRow key={i} hover={true}>
+                          {Object.entries(instrument).map(([key, value]) => (
+                            <TableCell key={key}>
+                              {typeof value === 'boolean' ||
+                              value instanceof Array
+                                ? value.toString()
+                                : value}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
+              <TablePagination
+                component="div"
+                count={instruments.length}
+                rowsPerPageOptions={isWidthDown('xs', width) ? [5] : undefined}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangeRowsPerPage={event => {
+                  onChangeRowsPerPage(event.target.value)
+                }}
+                onChangePage={(event, page) => {
+                  onChangePage(page)
+                }}
+              />
+            </Paper>
+          </Grid>
+        )}
+    </Fade>
   </Grid>
 )
 
@@ -139,16 +214,32 @@ const mapStateToProps = ({ dryMoose, eToro, market }) => ({
   isConnected: dryMoose.isConnected,
   eToroStatus: eToro.status,
   marketStatus: market.status,
+  instruments: market.instruments,
+  rowsPerPage: market.rowsPerPage,
+  page: market.page,
 })
 
 const mapDispatchToProps = dispatch => ({
-  onDiscover: () => dispatch(discoverMarket()),
-  onCancel: () => dispatch(cancelMarketDiscovery()),
-  onChangeConfig: (key, value) => dispatch(sendMarketConfig(key, value)),
+  onDiscover: () => {
+    dispatch(discoverMarket())
+  },
+  onCancel: () => {
+    dispatch(cancelMarketDiscovery())
+  },
+  onChangeConfig: (key, value) => {
+    dispatch(sendMarketConfig(key, value))
+  },
+  onChangeRowsPerPage: rowsPerPage => {
+    dispatch(changeMarketRowsPerPage(rowsPerPage))
+  },
+  onChangePage: page => {
+    dispatch(changeMarketPage(page))
+  },
 })
 
 export default compose(
   withStyles(styles),
+  withWidth(),
   connect(
     mapStateToProps,
     mapDispatchToProps,

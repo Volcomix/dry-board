@@ -2,6 +2,8 @@ import {
   MARKET_CONFIG_SENT,
   RECEIVE_MARKET_CONFIG,
   RECEIVE_MARKET_STATUS,
+  CHANGE_MARKET_ROWS_PER_PAGE,
+  CHANGE_MARKET_PAGE,
 } from '../actions/market'
 
 export const Status = {
@@ -16,6 +18,8 @@ const initialState = {
   config: undefined,
   status: Status.Stopped,
   instruments: undefined,
+  rowsPerPage: 5,
+  page: 0,
 }
 
 export default (state = initialState, action) => {
@@ -33,6 +37,10 @@ export default (state = initialState, action) => {
         status: action.status,
         instruments: action.instruments || state.instruments,
       }
+    case CHANGE_MARKET_ROWS_PER_PAGE:
+      return { ...state, rowsPerPage: action.rowsPerPage }
+    case CHANGE_MARKET_PAGE:
+      return { ...state, page: action.page }
     default:
       return state
   }

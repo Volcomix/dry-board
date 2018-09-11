@@ -4,6 +4,8 @@ export const SEND_MARKET_CONFIG = 'SEND_MARKET_CONFIG'
 export const MARKET_CONFIG_SENT = 'MARKET_CONFIG_SENT'
 export const RECEIVE_MARKET_CONFIG = 'RECEIVE_MARKET_CONFIG'
 export const RECEIVE_MARKET_STATUS = 'RECEIVE_MARKET_STATUS'
+export const CHANGE_MARKET_ROWS_PER_PAGE = 'CHANGE_MARKET_ROWS_PER_PAGE'
+export const CHANGE_MARKET_PAGE = 'CHANGE_MARKET_PAGE'
 
 export const discoverMarket = () => ({
   type: DISCOVER_MARKET,
@@ -34,4 +36,14 @@ export const receiveMarketStatus = (status, instruments) => ({
   type: RECEIVE_MARKET_STATUS,
   status,
   instruments,
+})
+
+export const changeMarketRowsPerPage = rowsPerPage => ({
+  type: CHANGE_MARKET_ROWS_PER_PAGE,
+  rowsPerPage,
+})
+
+export const changeMarketPage = page => ({
+  type: CHANGE_MARKET_PAGE,
+  page,
 })

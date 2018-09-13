@@ -154,7 +154,7 @@ const Market = ({
         </CardActions>
       </Card>
     </Grid>
-    <Fade in={instruments && instruments.length} mountOnEnter unmountOnExit>
+    <Fade in={!!(instruments && instruments.length)} mountOnEnter unmountOnExit>
       {instruments &&
         instruments.length && (
           <Grid item xs={12}>
@@ -176,14 +176,20 @@ const Market = ({
                       )
                       .map((instrument, i) => (
                         <TableRow key={i} hover={true}>
-                          {Object.entries(instrument).map(([key, value]) => (
-                            <TableCell key={key}>
-                              {typeof value === 'boolean' ||
+                          {Object.entries(instrument).map(([key, value]) => {
+                            let display
+                            if (
+                              typeof value === 'boolean' ||
                               value instanceof Array
-                                ? value.toString()
-                                : value}
-                            </TableCell>
-                          ))}
+                            ) {
+                              display = value.toString()
+                            } else if (typeof value === 'number') {
+                              display = +value.toFixed(4)
+                            } else {
+                              display = value
+                            }
+                            return <TableCell key={key}>{display}</TableCell>
+                          })}
                         </TableRow>
                       ))}
                   </TableBody>

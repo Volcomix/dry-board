@@ -48,6 +48,10 @@ const styles = {
   instruments: {
     overflow: 'auto',
   },
+  cell: {
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
 }
 
 const canDiscover = (marketStatus, eToroStatus, isConnected) => {
@@ -169,7 +173,10 @@ const Market = ({
                   <TableHead>
                     <TableRow>
                       {Object.keys(instruments[0]).map(key => (
-                        <TableCell key={key}>
+                        <TableCell
+                          key={key}
+                          classes={{ paddingDense: classes.cell }}
+                        >
                           <TableSortLabel
                             active={orderBy === key}
                             direction={order}
@@ -213,7 +220,14 @@ const Market = ({
                             } else {
                               display = value
                             }
-                            return <TableCell key={key}>{display}</TableCell>
+                            return (
+                              <TableCell
+                                key={key}
+                                classes={{ paddingDense: classes.cell }}
+                              >
+                                {display}
+                              </TableCell>
+                            )
                           })}
                         </TableRow>
                       ))}

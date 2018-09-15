@@ -4,6 +4,7 @@ import {
   RECEIVE_MARKET_STATUS,
   CHANGE_MARKET_ROWS_PER_PAGE,
   CHANGE_MARKET_PAGE,
+  CHANGE_MARKET_ORDER,
 } from '../actions/market'
 
 export const Status = {
@@ -20,6 +21,8 @@ const initialState = {
   instruments: undefined,
   rowsPerPage: 5,
   page: 0,
+  order: 'asc',
+  orderBy: undefined,
 }
 
 export default (state = initialState, action) => {
@@ -41,6 +44,15 @@ export default (state = initialState, action) => {
       return { ...state, rowsPerPage: action.rowsPerPage }
     case CHANGE_MARKET_PAGE:
       return { ...state, page: action.page }
+    case CHANGE_MARKET_ORDER:
+      return {
+        ...state,
+        order:
+          action.orderBy === state.orderBy && state.order === 'asc'
+            ? 'desc'
+            : 'asc',
+        orderBy: action.orderBy,
+      }
     default:
       return state
   }

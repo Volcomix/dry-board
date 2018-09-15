@@ -6,6 +6,7 @@ export const RECEIVE_MARKET_CONFIG = 'RECEIVE_MARKET_CONFIG'
 export const RECEIVE_MARKET_STATUS = 'RECEIVE_MARKET_STATUS'
 export const CHANGE_MARKET_ROWS_PER_PAGE = 'CHANGE_MARKET_ROWS_PER_PAGE'
 export const CHANGE_MARKET_PAGE = 'CHANGE_MARKET_PAGE'
+export const CHANGE_MARKET_ORDER = 'CHANGE_MARKET_ORDER'
 
 export const discoverMarket = () => ({
   type: DISCOVER_MARKET,
@@ -46,4 +47,9 @@ export const changeMarketRowsPerPage = rowsPerPage => ({
 export const changeMarketPage = page => ({
   type: CHANGE_MARKET_PAGE,
   page,
+})
+
+export const changeMarketOrder = orderBy => ({
+  type: CHANGE_MARKET_ORDER,
+  orderBy,
 })

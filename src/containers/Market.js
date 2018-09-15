@@ -16,6 +16,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
 import TablePagination from '@material-ui/core/TablePagination'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -32,11 +33,12 @@ import {
   sendMarketConfig,
   changeMarketRowsPerPage,
   changeMarketPage,
+  changeMarketOrder,
 } from '../actions/market'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
 
-const styles = theme => ({
+const styles = {
   formControl: {
     minWidth: 140,
   },
@@ -46,7 +48,7 @@ const styles = theme => ({
   instruments: {
     overflow: 'auto',
   },
-})
+}
 
 const canDiscover = (marketStatus, eToroStatus, isConnected) => {
   return (
@@ -83,11 +85,14 @@ const Market = ({
   instruments,
   rowsPerPage,
   page,
+  order,
+  orderBy,
   onDiscover,
   onCancel,
   onChangeConfig,
   onChangeRowsPerPage,
   onChangePage,
+  onChangeOrder,
 }) => (
   <Grid container spacing={16}>
     <Grid item xs={12} sm={5} lg={3}>
@@ -164,12 +169,32 @@ const Market = ({
                   <TableHead>
                     <TableRow>
                       {Object.keys(instruments[0]).map(key => (
-                        <TableCell key={key}>{key}</TableCell>
+                        <TableCell key={key}>
+                          <TableSortLabel
+                            active={orderBy === key}
+                            direction={order}
+                            onClick={() => onChangeOrder(key)}
+                          >
+                            {key}
+                          </TableSortLabel>
+                        </TableCell>
                       ))}
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {instruments
+                      .sort((a, b) => {
+                        if (orderBy === undefined) {
+                          return 0
+                        }
+                        if (a[orderBy] < b[orderBy]) {
+                          return order === 'asc' ? -1 : 1
+                        }
+                        if (a[orderBy] > b[orderBy]) {
+                          return order === 'asc' ? 1 : -1
+                        }
+                        return 0
+                      })
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage,
@@ -223,6 +248,8 @@ const mapStateToProps = ({ dryMoose, eToro, market }) => ({
   instruments: market.instruments,
   rowsPerPage: market.rowsPerPage,
   page: market.page,
+  order: market.order,
+  orderBy: market.orderBy,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -240,6 +267,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onChangePage: page => {
     dispatch(changeMarketPage(page))
+  },
+  onChangeOrder: orderBy => {
+    dispatch(changeMarketOrder(orderBy))
   },
 })
 

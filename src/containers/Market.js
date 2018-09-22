@@ -3,22 +3,12 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Collapse from '@material-ui/core/Collapse'
-import Fade from '@material-ui/core/Fade'
 import FormControl from '@material-ui/core/FormControl'
 import Grid from '@material-ui/core/Grid'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
 import Select from '@material-ui/core/Select'
 import { withStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TablePagination from '@material-ui/core/TablePagination'
-import TableRow from '@material-ui/core/TableRow'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import DiscoveredIcon from '@material-ui/icons/Check'
 import CancelledIcon from '@material-ui/icons/Close'
 import React from 'react'
@@ -34,6 +24,7 @@ import {
 } from '../actions/market'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
+import Table from '../components/Table'
 import { Status as EToroStatus } from '../reducers/eToro'
 import { Status as MarketStatus } from '../reducers/market'
 
@@ -41,16 +32,6 @@ const styles = {
   form: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  instrumentsPaper: {
-    overflow: 'hidden',
-  },
-  instruments: {
-    overflow: 'auto',
-  },
-  cell: {
-    paddingLeft: 12,
-    paddingRight: 12,
   },
 }
 
@@ -81,7 +62,6 @@ const isLoading = marketStatus => {
 
 const Market = ({
   classes,
-  width,
   config,
   isConnected,
   eToroStatus,
@@ -160,94 +140,16 @@ const Market = ({
         </CardActions>
       </Card>
     </Grid>
-    <Fade in={!!(instruments && instruments.length)} mountOnEnter unmountOnExit>
-      {instruments &&
-        instruments.length && (
-          <Grid item xs={12}>
-            <Paper className={classes.instrumentsPaper}>
-              <div className={classes.instruments}>
-                <Table padding="dense">
-                  <TableHead>
-                    <TableRow>
-                      {Object.keys(instruments[0]).map(key => (
-                        <TableCell
-                          key={key}
-                          classes={{ paddingDense: classes.cell }}
-                        >
-                          <TableSortLabel
-                            active={orderBy === key}
-                            direction={order}
-                            onClick={() => onChangeOrder(key)}
-                          >
-                            {key}
-                          </TableSortLabel>
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {instruments
-                      .sort((a, b) => {
-                        if (orderBy === undefined) {
-                          return 0
-                        }
-                        if (a[orderBy] < b[orderBy]) {
-                          return order === 'asc' ? -1 : 1
-                        }
-                        if (a[orderBy] > b[orderBy]) {
-                          return order === 'asc' ? 1 : -1
-                        }
-                        return 0
-                      })
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                      .map((instrument, i) => (
-                        <TableRow key={i} hover={true}>
-                          {Object.entries(instrument).map(([key, value]) => {
-                            let display
-                            if (
-                              typeof value === 'boolean' ||
-                              value instanceof Array
-                            ) {
-                              display = value.toString()
-                            } else if (typeof value === 'number') {
-                              display = +value.toFixed(4)
-                            } else {
-                              display = value
-                            }
-                            return (
-                              <TableCell
-                                key={key}
-                                classes={{ paddingDense: classes.cell }}
-                              >
-                                {display}
-                              </TableCell>
-                            )
-                          })}
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </div>
-              <TablePagination
-                component="div"
-                count={instruments.length}
-                rowsPerPageOptions={isWidthDown('xs', width) ? [5] : undefined}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangeRowsPerPage={event => {
-                  onChangeRowsPerPage(event.target.value)
-                }}
-                onChangePage={(event, page) => {
-                  onChangePage(page)
-                }}
-              />
-            </Paper>
-          </Grid>
-        )}
-    </Fade>
+    <Table
+      data={instruments}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      order={order}
+      orderBy={orderBy}
+      onChangeRowsPerPage={onChangeRowsPerPage}
+      onChangePage={onChangePage}
+      onChangeOrder={onChangeOrder}
+    />
   </Grid>
 )
 
@@ -286,7 +188,6 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withStyles(styles),
-  withWidth(),
   connect(
     mapStateToProps,
     mapDispatchToProps,

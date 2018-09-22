@@ -16,9 +16,16 @@ import FilteredIcon from '@material-ui/icons/Check'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { filterInstruments, sendFilterConfig } from '../actions/filter'
+import {
+  changeFilterOrder,
+  changeFilterPage,
+  changeFilterRowsPerPage,
+  filterInstruments,
+  sendFilterConfig,
+} from '../actions/filter'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
+import Table from '../components/Table'
 import { Status as FilterStatus } from '../reducers/filter'
 import { Status as MarketStatus } from '../reducers/market'
 
@@ -43,8 +50,16 @@ const Filter = ({
   isConnected,
   marketStatus,
   filterStatus,
+  instruments,
+  rowsPerPage,
+  page,
+  order,
+  orderBy,
   onFilter,
   onChangeConfig,
+  onChangeRowsPerPage,
+  onChangePage,
+  onChangeOrder,
 }) => (
   <Grid container spacing={16}>
     <Grid item xs={12} sm={6} lg={4}>
@@ -130,6 +145,16 @@ const Filter = ({
         </CardActions>
       </Card>
     </Grid>
+    <Table
+      data={instruments}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      order={order}
+      orderBy={orderBy}
+      onChangeRowsPerPage={onChangeRowsPerPage}
+      onChangePage={onChangePage}
+      onChangeOrder={onChangeOrder}
+    />
   </Grid>
 )
 
@@ -138,6 +163,11 @@ const mapStateToProps = ({ dryMoose, market, filter }) => ({
   isConnected: dryMoose.isConnected,
   marketStatus: market.status,
   filterStatus: filter.status,
+  instruments: filter.instruments,
+  rowsPerPage: filter.rowsPerPage,
+  page: filter.page,
+  order: filter.order,
+  orderBy: filter.orderBy,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -146,6 +176,15 @@ const mapDispatchToProps = dispatch => ({
   },
   onChangeConfig: (key, value) => {
     dispatch(sendFilterConfig(key, value))
+  },
+  onChangeRowsPerPage: rowsPerPage => {
+    dispatch(changeFilterRowsPerPage(rowsPerPage))
+  },
+  onChangePage: page => {
+    dispatch(changeFilterPage(page))
+  },
+  onChangeOrder: orderBy => {
+    dispatch(changeFilterOrder(orderBy))
   },
 })
 

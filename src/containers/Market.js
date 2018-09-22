@@ -39,8 +39,9 @@ import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
 
 const styles = {
-  formControl: {
-    minWidth: 140,
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   instrumentsPaper: {
     overflow: 'hidden',
@@ -123,11 +124,8 @@ const Market = ({
         </Status>
         <Collapse in={!!config}>
           {config && (
-            <CardContent>
-              <FormControl
-                className={classes.formControl}
-                disabled={!isConnected}
-              >
+            <CardContent className={classes.form}>
+              <FormControl disabled={!isConnected}>
                 <InputLabel>Discovery mode</InputLabel>
                 <Select
                   value={config.discoveryMode}

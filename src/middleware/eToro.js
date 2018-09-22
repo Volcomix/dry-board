@@ -1,12 +1,11 @@
 import io from 'socket.io-client'
-
 import {
-  START_ETORO,
-  STOP_ETORO,
-  SEND_ETORO_CONFIG,
   eToroConfigSent,
   receiveEToroConfig,
   receiveEToroStatus,
+  SEND_ETORO_CONFIG,
+  START_ETORO,
+  STOP_ETORO,
 } from '../actions/eToro'
 
 const Events = {

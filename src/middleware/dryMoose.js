@@ -1,5 +1,4 @@
 import io from 'socket.io-client'
-
 import { connected, disconnected } from '../actions/dryMoose'
 
 export default store => {

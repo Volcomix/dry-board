@@ -1,11 +1,10 @@
 import io from 'socket.io-client'
-
 import {
-  FILTER_INSTRUMENTS,
-  SEND_FILTER_CONFIG,
   filterConfigSent,
+  FILTER_INSTRUMENTS,
   receiveFilterConfig,
   receiveFilterStatus,
+  SEND_FILTER_CONFIG,
 } from '../actions/filter'
 
 const Events = {

@@ -1,42 +1,41 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import { withStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
-import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import Collapse from '@material-ui/core/Collapse'
+import Fade from '@material-ui/core/Fade'
 import FormControl from '@material-ui/core/FormControl'
+import Grid from '@material-ui/core/Grid'
 import InputLabel from '@material-ui/core/InputLabel'
-import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
+import Paper from '@material-ui/core/Paper'
+import Select from '@material-ui/core/Select'
+import { withStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
-import TablePagination from '@material-ui/core/TablePagination'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Collapse from '@material-ui/core/Collapse'
-import Fade from '@material-ui/core/Fade'
-import CancelledIcon from '@material-ui/icons/Close'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import DiscoveredIcon from '@material-ui/icons/Check'
-
-import { Status as EToroStatus } from '../reducers/eToro'
-import { Status as MarketStatus } from '../reducers/market'
+import CancelledIcon from '@material-ui/icons/Close'
+import React from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import {
-  discoverMarket,
   cancelMarketDiscovery,
-  sendMarketConfig,
-  changeMarketRowsPerPage,
-  changeMarketPage,
   changeMarketOrder,
+  changeMarketPage,
+  changeMarketRowsPerPage,
+  discoverMarket,
+  sendMarketConfig,
 } from '../actions/market'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
+import { Status as EToroStatus } from '../reducers/eToro'
+import { Status as MarketStatus } from '../reducers/market'
 
 const styles = {
   form: {

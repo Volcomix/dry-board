@@ -1,12 +1,11 @@
 import io from 'socket.io-client'
-
 import {
-  START_BROWSER,
-  STOP_BROWSER,
-  SEND_BROWSER_CONFIG,
   browserConfigSent,
   receiveBrowserConfig,
   receiveBrowserStatus,
+  SEND_BROWSER_CONFIG,
+  START_BROWSER,
+  STOP_BROWSER,
 } from '../actions/browser'
 
 const Events = {

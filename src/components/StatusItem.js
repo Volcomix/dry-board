@@ -1,7 +1,7 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
+import CardHeader from '@material-ui/core/CardHeader'
+import { withStyles } from '@material-ui/core/styles'
+import React from 'react'
 
 const styles = theme => ({
   primary: {

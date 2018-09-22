@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import layout from './layout'
-import dryMoose from './dryMoose'
 import browser from './browser'
+import dryMoose from './dryMoose'
 import eToro from './eToro'
-import market from './market'
 import filter from './filter'
+import layout from './layout'
+import market from './market'
 
 export default combineReducers({
   layout,

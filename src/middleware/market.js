@@ -1,12 +1,11 @@
 import io from 'socket.io-client'
-
 import {
-  DISCOVER_MARKET,
   CANCEL_MARKET_DISCOVERY,
-  SEND_MARKET_CONFIG,
+  DISCOVER_MARKET,
   marketConfigSent,
   receiveMarketConfig,
   receiveMarketStatus,
+  SEND_MARKET_CONFIG,
 } from '../actions/market'
 
 const Events = {

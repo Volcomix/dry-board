@@ -1,25 +1,24 @@
+import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import Collapse from '@material-ui/core/Collapse'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Grid from '@material-ui/core/Grid'
+import { withStyles } from '@material-ui/core/styles'
+import Switch from '@material-ui/core/Switch'
+import StartedIcon from '@material-ui/icons/Check'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardActions from '@material-ui/core/CardActions'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
-import Button from '@material-ui/core/Button'
-import Collapse from '@material-ui/core/Collapse'
-import StartedIcon from '@material-ui/icons/Check'
-
-import { Status as BrowserStatus } from '../reducers/browser'
 import {
+  sendBrowserConfig,
   startBrowser,
   stopBrowser,
-  sendBrowserConfig,
 } from '../actions/browser'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
+import { Status as BrowserStatus } from '../reducers/browser'
 
 const styles = {
   startButton: {

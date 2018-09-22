@@ -1,30 +1,36 @@
+import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import Collapse from '@material-ui/core/Collapse'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Grid from '@material-ui/core/Grid'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
+import { withStyles } from '@material-ui/core/styles'
+import Switch from '@material-ui/core/Switch'
+import TextField from '@material-ui/core/TextField'
+import FilteredIcon from '@material-ui/icons/Check'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import InputLabel from '@material-ui/core/InputLabel'
-import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import Switch from '@material-ui/core/Switch'
-import Collapse from '@material-ui/core/Collapse'
-import FilteredIcon from '@material-ui/icons/Check'
-
-import { Status as FilterStatus } from '../reducers/filter'
-import { sendFilterConfig } from '../actions/filter'
+import { filterInstruments, sendFilterConfig } from '../actions/filter'
 import Status from '../components/Status'
 import StatusItem from '../components/StatusItem'
+import { Status as FilterStatus } from '../reducers/filter'
+import { Status as MarketStatus } from '../reducers/market'
 
 const styles = {
   form: {
     display: 'flex',
     flexDirection: 'column',
   },
+}
+
+const canFilter = (marketStatus, isConnected) => {
+  return isConnected && marketStatus === MarketStatus.Discovered
 }
 
 const isLoading = filterStatus => {
@@ -35,7 +41,9 @@ const Filter = ({
   classes,
   config,
   isConnected,
+  marketStatus,
   filterStatus,
+  onFilter,
   onChangeConfig,
 }) => (
   <Grid container spacing={16}>
@@ -109,18 +117,33 @@ const Filter = ({
             </CardContent>
           )}
         </Collapse>
+        <CardActions>
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            disabled={!canFilter(marketStatus, isConnected)}
+            onClick={onFilter}
+          >
+            Filter
+          </Button>
+        </CardActions>
       </Card>
     </Grid>
   </Grid>
 )
 
-const mapStateToProps = ({ dryMoose, filter }) => ({
+const mapStateToProps = ({ dryMoose, market, filter }) => ({
   config: filter.config,
   isConnected: dryMoose.isConnected,
+  marketStatus: market.status,
   filterStatus: filter.status,
 })
 
 const mapDispatchToProps = dispatch => ({
+  onFilter: () => {
+    dispatch(filterInstruments())
+  },
   onChangeConfig: (key, value) => {
     dispatch(sendFilterConfig(key, value))
   },

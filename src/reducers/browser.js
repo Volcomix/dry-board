@@ -1,8 +1,8 @@
 import {
-  START_BROWSER,
   BROWSER_CONFIG_SENT,
   RECEIVE_BROWSER_CONFIG,
   RECEIVE_BROWSER_STATUS,
+  START_BROWSER,
 } from '../actions/browser'
 
 export const Status = {

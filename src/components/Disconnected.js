@@ -1,9 +1,9 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import Avatar from '@material-ui/core/Avatar'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
-import Avatar from '@material-ui/core/Avatar'
+import { withStyles } from '@material-ui/core/styles'
 import DisconnectedIcon from '@material-ui/icons/CloudOff'
+import React from 'react'
 
 const styles = {
   card: {

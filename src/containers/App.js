@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import FilterIcon from '@material-ui/icons/FilterList'
 import MarketIcon from '@material-ui/icons/FindInPage'
+import InputIcon from '@material-ui/icons/Input'
 import MenuIcon from '@material-ui/icons/Menu'
 import BrowserIcon from '@material-ui/icons/Web'
 import React from 'react'
@@ -22,6 +23,7 @@ import EToroIcon from '../icons/EToro'
 import Browser from './Browser'
 import EToro from './EToro'
 import Filter from './Filter'
+import Input from './Input'
 import Market from './Market'
 
 const drawerWidth = 240
@@ -136,6 +138,12 @@ const routes = [
     icon: FilterIcon,
     title: 'Instruments filter',
     component: Filter,
+  },
+  {
+    path: '/input',
+    icon: InputIcon,
+    title: 'Prices input',
+    component: Input,
   },
 ]
 

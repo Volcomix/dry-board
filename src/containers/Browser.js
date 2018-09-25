@@ -42,7 +42,7 @@ const canStop = (status, isConnected) => {
 }
 
 const isLoading = status => {
-  return status === BrowserStatus.Stopping || status === BrowserStatus.Starting
+  return status === BrowserStatus.Starting
 }
 
 const Browser = ({

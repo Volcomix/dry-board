@@ -45,12 +45,8 @@ const canDiscover = (marketStatus, eToroStatus, isConnected) => {
   )
 }
 
-const canCancel = (marketStatus, eToroStatus, isConnected) => {
-  return (
-    isConnected &&
-    eToroStatus === EToroStatus.Started &&
-    marketStatus === MarketStatus.Discovering
-  )
+const canCancel = (marketStatus, isConnected) => {
+  return isConnected && marketStatus === MarketStatus.Discovering
 }
 
 const isLoading = marketStatus => {
@@ -132,7 +128,7 @@ const Market = ({
           <Button
             size="small"
             color="primary"
-            disabled={!canCancel(marketStatus, eToroStatus, isConnected)}
+            disabled={!canCancel(marketStatus, isConnected)}
             onClick={onCancel}
           >
             Cancel

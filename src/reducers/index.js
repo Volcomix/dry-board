@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import browser from './browser'
+import chart from './chart'
 import dryMoose from './dryMoose'
 import eToro from './eToro'
 import filter from './filter'
@@ -15,4 +16,5 @@ export default combineReducers({
   market,
   filter,
   proCharts,
+  chart,
 })

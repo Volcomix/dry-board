@@ -16,7 +16,7 @@ const Events = {
 }
 
 export default store => {
-  const socket = io('/eToro')
+  const socket = io('/etoro')
   socket.on(Events.Config, config => store.dispatch(receiveEToroConfig(config)))
   socket.on(Events.Status, status => store.dispatch(receiveEToroStatus(status)))
 

@@ -12,7 +12,7 @@ const Events = {
 }
 
 export default store => {
-  const socket = io('/proCharts')
+  const socket = io('/procharts')
   socket.on(Events.Status, status =>
     store.dispatch(receiveProChartsStatus(status)),
   )

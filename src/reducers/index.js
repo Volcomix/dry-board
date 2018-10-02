@@ -6,6 +6,7 @@ import eToro from './eToro'
 import filter from './filter'
 import layout from './layout'
 import market from './market'
+import price from './price'
 import proCharts from './proCharts'
 
 export default combineReducers({
@@ -17,4 +18,5 @@ export default combineReducers({
   filter,
   proCharts,
   chart,
+  price,
 })

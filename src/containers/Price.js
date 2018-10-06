@@ -102,10 +102,12 @@ const Price = ({
       {config && (
         <CardContent className={classes.form}>
           <FormControl disabled={!isConnected}>
-            <InputLabel>Period</InputLabel>
+            <InputLabel>Periodicity</InputLabel>
             <Select
-              value={config.period}
-              onChange={event => onChangeConfig('period', event.target.value)}
+              value={config.periodicity}
+              onChange={event =>
+                onChangeConfig('periodicity', event.target.value)
+              }
             >
               {/* 1, 5, 10, 15, 30, 60, 240, 'day', 'week' */}
               <MenuItem value={1}>1 minute</MenuItem>

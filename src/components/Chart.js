@@ -16,6 +16,7 @@ import teal from '@material-ui/core/colors/teal'
 import yellow from '@material-ui/core/colors/yellow'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
 import React from 'react'
 import {
@@ -49,10 +50,19 @@ export const colors = [
 
 const chartColor = index => colors[index % colors.length]
 
-const Chart = ({ keys, data }) =>
+const styles = theme => ({
+  paper: {
+    overflow: 'hidden',
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+  },
+})
+
+const Chart = ({ classes, keys, data }) =>
   data && data.length ? (
     <Grid item xs={12}>
-      <Paper>
+      <Paper className={classes.paper}>
         <ResponsiveContainer height={300}>
           <LineChart data={data}>
             <CartesianGrid vertical={false} />
@@ -82,4 +92,4 @@ const Chart = ({ keys, data }) =>
     </Grid>
   ) : null
 
-export default Chart
+export default withStyles(styles)(Chart)

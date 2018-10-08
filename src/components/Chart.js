@@ -82,7 +82,7 @@ const Chart = ({ classes, keys, data }) =>
               scale="time"
               domain={['auto', 'auto']}
             />
-            <YAxis />
+            <YAxis domain={['auto', 'auto']} />
             <Tooltip
               labelFormatter={date => moment(date).format('YYYY-MM-DD HH:mm')}
             />

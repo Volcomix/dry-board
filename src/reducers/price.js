@@ -18,6 +18,21 @@ const initialState = {
   prices: undefined,
 }
 
+const formatPrices = prices => {
+  const result = Object.entries(prices).reduce((result, [symbol, data]) => {
+    data.forEach(price => {
+      if (!(price.Date in result)) {
+        result[price.Date] = {}
+      }
+      result[price.Date][symbol] = price.Close
+    })
+    return result
+  }, {})
+  return Object.keys(result)
+    .sort()
+    .map(date => ({ ...result[date], date: +new Date(date) }))
+}
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case PRICE_CONFIG_SENT:
@@ -31,7 +46,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: action.status,
-        prices: action.prices || state.prices,
+        prices: action.prices ? formatPrices(action.prices) : state.prices,
       }
     default:
       return state

@@ -19,11 +19,11 @@ import { compose } from 'recompose'
 import { toggleDrawer } from '../actions/layout'
 import Disconnected from '../components/Disconnected'
 import DrawerContent from '../components/DrawerContent'
-import Input from '../components/Input'
 import EToroIcon from '../icons/EToro'
 import Browser from './Browser'
 import EToro from './EToro'
 import Filter from './Filter'
+import Input from './Input'
 import Market from './Market'
 
 const drawerWidth = 240

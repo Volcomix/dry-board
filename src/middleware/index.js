@@ -6,6 +6,7 @@ import filter from './filter'
 import market from './market'
 import price from './price'
 import proCharts from './proCharts'
+import webgl from './webgl'
 
 export default [
   dryMoose,
@@ -16,4 +17,5 @@ export default [
   proCharts,
   chart,
   price,
+  webgl,
 ]

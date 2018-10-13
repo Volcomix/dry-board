@@ -8,6 +8,7 @@ import layout from './layout'
 import market from './market'
 import price from './price'
 import proCharts from './proCharts'
+import webgl from './webgl'
 
 export default combineReducers({
   layout,
@@ -19,4 +20,5 @@ export default combineReducers({
   proCharts,
   chart,
   price,
+  webgl,
 })

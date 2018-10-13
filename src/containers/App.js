@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import { withStyles } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import LearnIcon from '@material-ui/icons/DeviceHub'
 import FilterIcon from '@material-ui/icons/FilterList'
 import MarketIcon from '@material-ui/icons/FindInPage'
 import InputIcon from '@material-ui/icons/Input'
@@ -24,6 +25,7 @@ import Browser from './Browser'
 import EToro from './EToro'
 import Filter from './Filter'
 import Input from './Input'
+import Learn from './Learn'
 import Market from './Market'
 
 const drawerWidth = 240
@@ -144,6 +146,12 @@ const routes = [
     icon: InputIcon,
     title: 'Prices input',
     component: Input,
+  },
+  {
+    path: '/learn',
+    icon: LearnIcon,
+    title: 'Deep learning',
+    component: Learn,
   },
 ]
 

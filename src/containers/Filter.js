@@ -36,8 +36,13 @@ const styles = {
   },
 }
 
-const canFilter = (marketStatus, isConnected) => {
-  return isConnected && marketStatus === MarketStatus.Discovered
+const canFilter = (filterStatus, marketStatus, isConnected) => {
+  return (
+    isConnected &&
+    marketStatus === MarketStatus.Discovered &&
+    (filterStatus === FilterStatus.Stopped ||
+      filterStatus === FilterStatus.Filtered)
+  )
 }
 
 const isLoading = filterStatus => {
@@ -137,7 +142,7 @@ const Filter = ({
             variant="contained"
             size="small"
             color="primary"
-            disabled={!canFilter(marketStatus, isConnected)}
+            disabled={!canFilter(filterStatus, marketStatus, isConnected)}
             onClick={onFilter}
           >
             Filter

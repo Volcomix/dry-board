@@ -17,6 +17,7 @@ import yellow from '@material-ui/core/colors/yellow'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 import React from 'react'
 import {
@@ -53,43 +54,49 @@ const chartColor = index => colors[index % colors.length]
 const styles = theme => ({
   paper: {
     overflow: 'hidden',
-    paddingTop: theme.spacing.unit,
+    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
   },
+  title: {
+    marginLeft: theme.spacing.unit * 8,
+    marginBottom: theme.spacing.unit,
+  },
 })
 
-const Chart = ({ classes, keys, data }) =>
-  data && data.length ? (
-    <Grid item xs={12}>
-      <Paper className={classes.paper}>
-        <ResponsiveContainer height={300}>
-          <LineChart data={data}>
-            <CartesianGrid vertical={false} />
-            {keys.map((key, i) => (
-              <Line
-                key={key}
-                dataKey={key}
-                stroke={chartColor(i)}
-                dot={false}
-                connectNulls={true}
-              />
-            ))}
-            <XAxis
-              dataKey="date"
-              hide={true}
-              type="number"
-              scale="time"
-              domain={['auto', 'auto']}
-            />
-            <YAxis domain={['auto', 'auto']} />
-            <Tooltip
-              labelFormatter={date => moment(date).format('YYYY-MM-DD HH:mm')}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </Paper>
-    </Grid>
-  ) : null
+const Chart = ({ classes, title, keys, data }) => (
+  <Grid item xs={12} md={6} lg={4}>
+    <Paper className={classes.paper}>
+      <Typography className={classes.title} variant="title">
+        {title}
+      </Typography>
+      <ResponsiveContainer height={250}>
+        <LineChart data={data}>
+          <CartesianGrid vertical={false} />
+          {keys.map((key, i) => (
+            <Line key={key} dataKey={key} stroke={chartColor(i)} dot={false} />
+          ))}
+          <XAxis
+            dataKey="date"
+            hide={true}
+            type="number"
+            scale="time"
+            domain={['auto', 'auto']}
+          />
+          <YAxis
+            domain={['auto', 'auto']}
+            tick={{ fontSize: 12 }}
+            tickFormatter={value => +value.toFixed(4)}
+          />
+          <Tooltip
+            itemStyle={{ fontSize: 14 }}
+            labelStyle={{ fontSize: 14 }}
+            labelFormatter={date => moment(date).format('YYYY-MM-DD HH:mm')}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </Paper>
+  </Grid>
+)
 
 export default withStyles(styles)(Chart)

@@ -18,20 +18,14 @@ const initialState = {
   prices: undefined,
 }
 
-const formatPrices = prices => {
-  const result = Object.entries(prices).reduce((result, [symbol, data]) => {
-    data.forEach(price => {
-      if (!(price.Date in result)) {
-        result[price.Date] = {}
-      }
-      result[price.Date][symbol] = price.Close
-    })
+const formatPrices = prices =>
+  Object.entries(prices).reduce((result, [symbol, data]) => {
+    result[symbol] = data.map(price => ({
+      ...price,
+      date: +new Date(price.date),
+    }))
     return result
   }, {})
-  return Object.keys(result)
-    .sort()
-    .map(date => ({ ...result[date], date: +new Date(date) }))
-}
 
 export default (state = initialState, action) => {
   switch (action.type) {

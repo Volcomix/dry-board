@@ -6,7 +6,7 @@ import ChartLoader from './Chart'
 import Price from './Price'
 import ProCharts from './ProCharts'
 
-const Input = ({ instruments, prices }) => (
+const Input = ({ prices }) => (
   <Grid container spacing={16}>
     <Grid item xs={12} sm={4} lg={3}>
       <ProCharts />
@@ -17,15 +17,19 @@ const Input = ({ instruments, prices }) => (
     <Grid item xs={12} sm={4} lg={3}>
       <Price />
     </Grid>
-    <Chart
-      keys={instruments && instruments.map(instrument => instrument.name)}
-      data={prices && prices.slice(-100)}
-    />
+    {prices &&
+      Object.entries(prices).map(([symbol, data]) => (
+        <Chart
+          key={symbol}
+          title={symbol}
+          keys={['close']}
+          data={data.slice(-100)}
+        />
+      ))}
   </Grid>
 )
 
-const mapStateToProps = ({ filter, price }) => ({
-  instruments: filter.instruments,
+const mapStateToProps = ({ price }) => ({
   prices: price.prices,
 })
 

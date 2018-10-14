@@ -3,6 +3,7 @@ import browser from './browser'
 import chart from './chart'
 import dryMoose from './dryMoose'
 import eToro from './eToro'
+import feature from './feature'
 import filter from './filter'
 import layout from './layout'
 import market from './market'
@@ -20,5 +21,6 @@ export default combineReducers({
   proCharts,
   chart,
   price,
+  feature,
   webgl,
 })

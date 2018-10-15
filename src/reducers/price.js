@@ -18,15 +18,6 @@ const initialState = {
   prices: undefined,
 }
 
-const formatPrices = prices =>
-  Object.entries(prices).reduce((result, [symbol, data]) => {
-    result[symbol] = data.map(price => ({
-      ...price,
-      date: +new Date(price.date),
-    }))
-    return result
-  }, {})
-
 export default (state = initialState, action) => {
   switch (action.type) {
     case PRICE_CONFIG_SENT:
@@ -40,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: action.status,
-        prices: action.prices ? formatPrices(action.prices) : state.prices,
+        prices: action.prices || state.prices,
       }
     default:
       return state

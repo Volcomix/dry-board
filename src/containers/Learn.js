@@ -7,24 +7,28 @@ import WebGL from './WebGL'
 
 const Learn = ({ features }) => (
   <Grid container spacing={16}>
-    <Grid item xs={12} sm={4} lg={3}>
-      <Feature />
+    <Grid item container spacing={16}>
+      <Grid item xs={12} sm={4} lg={3}>
+        <Feature />
+      </Grid>
+      <Grid item xs={12} sm={4} lg={3}>
+        <WebGL />
+      </Grid>
     </Grid>
-    <Grid item xs={12} sm={4} lg={3}>
-      <WebGL />
+    <Grid item container spacing={16}>
+      {features &&
+        Object.entries(features).map(([symbol, data]) => (
+          <Chart
+            key={symbol}
+            title={symbol}
+            keys={[
+              ...Array.from({ length: 4 }, (_, i) => `change-${i + 1}`),
+              ...Array.from({ length: 4 }, (_, i) => `range-${i + 1}`),
+            ]}
+            data={data.slice(-100)}
+          />
+        ))}
     </Grid>
-    {features &&
-      Object.entries(features).map(([symbol, data]) => (
-        <Chart
-          key={symbol}
-          title={symbol}
-          keys={[
-            ...Array.from({ length: 4 }, (_, i) => `change-${i + 1}`),
-            ...Array.from({ length: 4 }, (_, i) => `range-${i + 1}`),
-          ]}
-          data={data.slice(-100)}
-        />
-      ))}
   </Grid>
 )
 

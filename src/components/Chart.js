@@ -76,13 +76,7 @@ const Chart = ({ classes, title, keys, data }) => (
           {keys.map((key, i) => (
             <Line key={key} dataKey={key} stroke={chartColor(i)} dot={false} />
           ))}
-          <XAxis
-            dataKey="date"
-            hide={true}
-            type="number"
-            scale="time"
-            domain={['auto', 'auto']}
-          />
+          <XAxis dataKey="date" hide={true} />
           <YAxis
             domain={['auto', 'auto']}
             tick={{ fontSize: 12 }}

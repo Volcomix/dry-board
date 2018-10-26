@@ -23,7 +23,7 @@ const isLoading = featureStatus => {
   return featureStatus === FeatureStatus.Selecting
 }
 
-const Filter = ({ isConnected, priceStatus, featureStatus, onSelect }) => (
+const Feature = ({ isConnected, priceStatus, featureStatus, onSelect }) => (
   <Card>
     <Status value={featureStatus} isLoading={isLoading(featureStatus)}>
       <StatusItem
@@ -66,4 +66,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Filter)
+)(Feature)
